@@ -50,8 +50,6 @@ vector<Move*> *Pokemon::getMovepool(){
     return movepool;
 }
 
-
-
 void Pokemon::setMoveset(vector<Move*> *moveset){
     Pokemon::moveset = moveset;
 }
@@ -175,10 +173,11 @@ string Pokemon::typeString(PkmnTypes tipo){
         case PkmnTypes::WATER:
             return "WATER";
         break;
-        DEFault:
+        default:
             return "NONE";
         break;
     }
+    return "";
 }
 
 string Pokemon::getStatus(){

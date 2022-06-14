@@ -16,7 +16,7 @@ Trainer *Cynthia = new Trainer("Cynthia",CHAMPION,CynthiaParty);
 void updateTrainers(){
     //Trainer->setPkmn(Pokemon,level,moveset);
     //Lucas
-    Lucas->setPkmn(Chimchar,9,new vector<Move*>{Scratch, Leer});
+    Lucas->setPkmn(Chimchar,7,new vector<Move*>{Scratch, Leer});
     Lucas->setPkmn(Starly,7,new vector<Move*>{Tackle, Growl});
     for(auto pkmn: *LucasParty){
         pkmn->updateStats();
@@ -25,7 +25,7 @@ void updateTrainers(){
     //Kaitlin
     Kaitlin->setPkmn(Starly,4,new vector<Move*>{Tackle,Growl});
     Kaitlin->setPkmn(Bidoof,4,new vector<Move*>{Tackle,Growl});
-    Kaitlin->setPkmn(Budew,4,new vector<Move*>{Absorb,Growth,StunSpore,WorrySeed});
+    Kaitlin->setPkmn(Budew,4,new vector<Move*>{Absorb,StunSpore});
     Kaitlin->setPkmn(Abra,4,new vector<Move*>{Teleport});
     for(auto pkmn: *KaitlinParty){
         pkmn->updateStats();

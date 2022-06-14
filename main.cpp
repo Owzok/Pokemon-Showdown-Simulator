@@ -7,6 +7,13 @@ void clearScreen(){
     system("cls");
 }
 
+/*
+____________________________________________________________
+
+        Chimchar used Scratch and dealt 8 dmg.
+____________________________________________________________
+*/
+
 void textBox(string text, bool clear){
     if(clear)
         clearScreen();
@@ -15,6 +22,14 @@ void textBox(string text, bool clear){
     cout <<"\t"<<text;
     cout<<" ____________________________________________________________ "<<endl; getch();
 }
+
+/*
+____________________________________________________________
+
+        [1] Scratch     NORMAL  40      35/35
+        [2] Leer        NORMAL  0       30/30
+____________________________________________________________
+*/
 
 Move* movesMenu(Pokemon *userPokemon){
     int temp = 1;
@@ -36,18 +51,31 @@ Move* movesMenu(Pokemon *userPokemon){
     return moves->at(chosenMove-1);
 }
 
+/*
+____________________________________________________________
+
+    What will Chimchar do?
+    [1] Fight
+    [2] Change    
+____________________________________________________________
+*/
+
 int actionsMenu(Pokemon* userPokemon){
     int decision = 0;
     vector<Move*> *moves = userPokemon->getMoveset();
 
     cout<<"\n ____________________________________________________________ \n\n";
-    cout<<"What will "<<userPokemon->getName()<<" do?\n[1] Fight: \n"<<"[2] Change: \n";
+    cout<<"\tWhat will "<<userPokemon->getName()<<" do?\n\t[1] Fight \n\t"<<"[2] Change \n";
     cout<<" ____________________________________________________________ "<<endl;
 
     do{ cout<<"Opcion: ";cin>>decision; } while(decision < 1 || decision > 2);
 
     return decision;
 }
+
+// 1 => User is faster
+// 2 => Enemy is faster
+// Speedtie, chooses randomly between 1 and 2
 
 int speedCheck(Pokemon* uPkmn, Pokemon* ePkmn){
     if (uPkmn->getSPE() > ePkmn->getSPE()){
@@ -61,6 +89,14 @@ int speedCheck(Pokemon* uPkmn, Pokemon* ePkmn){
 }
 
 int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move){
+
+    if(userPkmn->getStatus() == "PAR"){
+        if(rand()%100+1 < 50){
+            textBox(userPkmn->getName()+" is paralyzed!\tIt can't move!\n", true);
+            return -1;
+        }
+    }
+
     string txt = move->getSideEffect();
     vector<string> campos = vector<string>();
     string delimeter = "|";
@@ -74,33 +110,36 @@ int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move){
     token = txt.substr(0, pos);
     campos.push_back(token);
     clearScreen();
-    if(enemyPokemon->getStatus() == ""){
-        if (campos.at(0) == "s"){
-            if(rand()%100+1 < stoi(campos.at(1))){
-                switch(stoi(campos.at(2))){
-                    case 0:
-                        enemyPokemon->setStatus(SLEEP);
-                    break;
-                    case 1:
-                        enemyPokemon->setStatus(FROZEN);
-                    break;
-                    case 2:
-                        enemyPokemon->setStatus(PARALYZED);
-                    break;
-                    case 3:
-                        enemyPokemon->setStatus(BURNED);
-                    break;
-                    case 4:
-                        enemyPokemon->setStatus(POISONED);
-                    break;
-                    case 5:
-                        enemyPokemon->setStatus(CONFUSED);
-                    break;
-                }
+    if (campos.at(0) == "s"){
+        if(rand()%100+1 < stoi(campos.at(1))){
+            switch(stoi(campos.at(2))){
+                case 0:
+                    enemyPokemon->setStatus(SLEEP);
+                break;
+                case 1:
+                    enemyPokemon->setStatus(FROZEN);
+                break;
+                case 2:
+                    if(enemyPokemon->getStatus() == "PAR"){
+                        textBox(enemyPokemon->getName()+" is already "+enemyPokemon->getStatus()+"!\n",true);
+                        return -1;
+                    }
+                    enemyPokemon->setStatus(PARALYZED);
+                    textBox(enemyPokemon->getName()+" is paralyzed! It may be unable to move!\n", true);
+                break;
+                case 3:
+                    enemyPokemon->setStatus(BURNED);
+                break;
+                case 4:
+                    enemyPokemon->setStatus(POISONED);
+                break;
+                case 5:
+                    enemyPokemon->setStatus(CONFUSED);
+                break;
             }
+        } else {
+            textBox(userPkmn->getName()+" missed!\n",true);
         }
-    } else {
-        textBox("Enemy is already "+enemyPokemon->getStatus()+"\n",true);
     }
     
     //Pokemon Dmg Formula
@@ -114,6 +153,7 @@ int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move){
         return 0;
     }
 }
+
 
 Move* enemyAttack(Trainer *enemy, Pokemon *enemyPokemon){
     //Get moveset of the enemy and get a random move between them
@@ -181,6 +221,15 @@ bool lose(Trainer* user, Trainer* enemy, bool is_player){
     }
 }
 
+Pokemon* sendNextPokemon(Trainer *trainer, int &hp){
+    trainer->updateTeam();
+    Pokemon *pkmn = trainer->getLeadPkmn();
+    hp = pkmn->getHP();
+    clearScreen();
+    textBox(trainer->classtring(trainer->getTC())+" "+trainer->getName()+" will sent out "+pkmn->getName()+"!\n",true);
+    return pkmn;
+}
+
 void Battle(Trainer*user, Trainer*enemy){
     string partyballs(enemy->getPartySize(),'O');
     string emptyballs(6-enemy->getPartySize(),'*');
@@ -195,6 +244,7 @@ void Battle(Trainer*user, Trainer*enemy){
     int speedTurn;
     int enemyHp = enemyPkmn->getHP();
     int userHp = userPkmn->getHP();
+    int calc_dmg = 0;
 
     textBox(enemy->classtring(enemy->getTC())+" "+enemy->getName()+" sent out "+enemyPkmn->getName()+"!\n ",true);
     clearScreen();
@@ -203,6 +253,7 @@ void Battle(Trainer*user, Trainer*enemy){
     while(inBattle == true){
         userPkmn->updateStats();
         enemyPkmn->updateStats();
+
         // Display menu
         ShowPokemonMenuHUD(user,enemy,userPkmn, enemyPkmn, userHp, enemyHp);
         
@@ -219,116 +270,93 @@ void Battle(Trainer*user, Trainer*enemy){
         //checkSpeedTurn
         speedTurn = speedCheck(userPkmn,enemyPkmn);
 
+        userMove = movesMenu(userPkmn);
+        clearScreen();
+
         switch (speedTurn){
-        case 1:     //starts USER
+        case 1:     // ========================================= starts USER =========================================
             switch(menuDecision){
-                case 1:     //chose to Attack
-                    userMove = movesMenu(userPkmn);
-                    clearScreen();
+                case 1:     
+                    //=-=-=-=-=-=-=-=-= User Turn =-=-=-=-=-=-=-=-=
+                    calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove);
 
-                    // User Turn
-                    //Text
-                    if(userMove->getPower() != 0){
-                        textBox(userPkmn->getName()+" used "+userMove->getName()+" and dealt "+to_string((int)(calculateDamage(userPkmn, enemyPkmn, userMove)))+" dmg.\n",true);
-                    } else {
-                        textBox(userPkmn->getName()+" used "+userMove->getName()+"\n",true);
-                    }
-                    //Lower Hp
-                    enemyHp = enemyHp - calculateDamage(userPkmn, enemyPkmn, userMove);
-                    //Check if died
-                    if(checkHps(userHp, enemyHp, userPkmn, enemyPkmn) == false){
-                        if(lose(user,enemy,true) == true){
-                            return;
-                        } else {
-                            enemy->updateTeam();
-                            enemyPkmn = enemy->getLeadPkmn();
-                            enemyHp = enemyPkmn->getHP();
-                            clearScreen();
-                            textBox(enemy->classtring(enemy->getTC())+" "+enemy->getName()+" will sent out "+enemyPkmn->getName()+"!\n",true);
-                            break;
+                    // -1 = abort
+                    if(calc_dmg != -1){
+                        textBox((userPkmn->getName()+" used "+userMove->getName()+"\n"),true);
+                        enemyHp = enemyHp - calc_dmg;
+                        //Check if died
+                        if(checkHps(userHp, enemyHp, userPkmn, enemyPkmn) == false){
+                            if(lose(user,enemy,true) == true){
+                                return;
+                            } else {
+                                enemyPkmn = sendNextPokemon(enemy, enemyHp);
+                                break;
+                            }
                         }
-                        
                     }
-                    // Foe Turn
-                    if(enemyMove->getPower() != 0){
-                        textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+" and dealt "+to_string((int)(calculateDamage(enemyPkmn, userPkmn, enemyMove)))+" dmg.\n",true);
-                    } else {
+                    
+                    // =-=-=-=-=-=-= Foe Turn =-=-=-=-=-=-=-=-=
+                    calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove);
+
+                    // -1 = abort
+                    if(calc_dmg != -1){
                         textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",true);
-                    }
-                    //Lower hp
-                    userHp = userHp - calculateDamage(enemyPkmn, userPkmn, enemyMove);
-                    //check if died
-                    if(checkHps(userHp, enemyHp, userPkmn, enemyPkmn) == false){
-                        if(lose(enemy,user,false) == true){
-                            return;
-                        } else {
-                            user->updateTeam();
-                            userPkmn = user->getLeadPkmn();
-                            userHp = userPkmn->getHP();
-                            clearScreen();
-                            textBox(user->classtring(user->getTC())+" "+user->getName()+" will sent out "+userPkmn->getName()+"!\n",true);
-                            break;
+                        userHp = userHp - calc_dmg;
+                        if(checkHps(userHp, enemyHp, userPkmn, enemyPkmn) == false){
+                            if(lose(enemy,user,false) == true){
+                                return;
+                            } else {
+                                userPkmn = sendNextPokemon(user, userHp);
+                                break;
+                            }
                         }
-                        
                     }
 
-                    clearScreen();
                 break;
-                case 2:     //chose to change
+                case 2:     // Change pokemon
                     cout << "You decided to change" << endl;
                 break;
             }
-
             break;
-        case 2:     // starts ENEMY
+        case 2:     //  ========================================= ENEMY goes first =========================================
             switch(menuDecision){
                 case 1:     
-                    //chose to Attack
-                    userMove = movesMenu(userPkmn);
-                    clearScreen();
+                    // =-=-=-=-=-=-= Foe Turn =-=-=-=-=-=-=-=-=
+                    calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove);
 
-                    // Foe Turn
-                    
-                    if(enemyMove->getPower() != 0){
-                        textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+" and dealt "+to_string((int)(calculateDamage(enemyPkmn, userPkmn, enemyMove)))+" dmg.\n",true);
-                    } else {
+                    // -1 = abort
+                    if(calc_dmg != -1){
                         textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",true);
-                    }
-                    userHp = userHp - calculateDamage(enemyPkmn, userPkmn, enemyMove);
-                    if(checkHps(userHp, enemyHp, userPkmn, enemyPkmn) == false){
-                        if(lose(enemy,user,false) == true){
-                            return;
-                        } else {
-                            user->updateTeam();
-                            userPkmn = user->getLeadPkmn();
-                            userHp = userPkmn->getHP();
-                            clearScreen();
-                            textBox(user->classtring(user->getTC())+" "+user->getName()+" will sent out "+userPkmn->getName()+"!\n",true);
-                            break;
+                        userHp = userHp - calc_dmg;
+                        if(checkHps(userHp, enemyHp, userPkmn, enemyPkmn) == false){
+                            if(lose(enemy,user,false) == true){
+                                return;
+                            } else {
+                                userPkmn = sendNextPokemon(user, userHp);
+                                break;
+                            }
                         }
                     }
+                    
+                    
+                    //=-=-=-=-=-=-=-=-= User Turn =-=-=-=-=-=-=-=-=
+                    calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove);
 
-                    // User Turn
-                    if(userMove->getPower() != 0){
-                        textBox(userPkmn->getName()+" used "+userMove->getName()+" and dealt "+to_string((int)(calculateDamage(userPkmn, enemyPkmn, userMove)))+" dmg.\n",true);
-                    } else {
-                        textBox(userPkmn->getName()+" used "+userMove->getName()+"\n",true);
-                    }
-                    enemyHp = enemyHp - calculateDamage(userPkmn, enemyPkmn, userMove);
-                    if(checkHps(userHp, enemyHp, userPkmn, enemyPkmn) == false){
-                        if(lose(user,enemy,true) == true){
-                            return;
-                        } else {
-                            enemy->updateTeam();
-                            enemyPkmn = enemy->getLeadPkmn();
-                            enemyHp = enemyPkmn->getHP();
-                            clearScreen();
-                            textBox(enemy->classtring(enemy->getTC())+" "+enemy->getName()+" will sent out "+enemyPkmn->getName()+"!\n",true);
-                            break;
+                    // -1 = abort
+                    if(calc_dmg != -1){
+                        textBox((userPkmn->getName()+" used "+userMove->getName()+"\n"),true);
+                        enemyHp = enemyHp - calc_dmg;
+                        //Check if died
+                        if(checkHps(userHp, enemyHp, userPkmn, enemyPkmn) == false){
+                            if(lose(user,enemy,true) == true){
+                                return;
+                            } else {
+                                enemyPkmn = sendNextPokemon(enemy, enemyHp);
+                                break;
+                            }
                         }
                     }
-
-                    clearScreen();
+                    
                 break;
                 case 2:     //chose to change
                     cout << "You decided to change" << endl;
