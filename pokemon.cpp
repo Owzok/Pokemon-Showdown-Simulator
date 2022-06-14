@@ -116,6 +116,7 @@ string Pokemon::statusString(PkmnStatus status){
             return "";
         break;
     }
+    return "";
 }
 
 string Pokemon::typeString(PkmnTypes tipo){

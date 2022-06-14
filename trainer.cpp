@@ -80,6 +80,7 @@ string Trainer::classtring(TrainerClass tc){
             return "Champion";
         break;
     }
+    return "";
 }
 
 void Trainer::mostrarEquipo(){
