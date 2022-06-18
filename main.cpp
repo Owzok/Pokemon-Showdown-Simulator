@@ -799,7 +799,6 @@ int main(){
     srand(time(NULL));
     //Lucas
     
-
     updateTrainers();
 
     //Lucas->mostrarEquipo();
