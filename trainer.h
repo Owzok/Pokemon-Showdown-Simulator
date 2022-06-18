@@ -6,16 +6,17 @@ class Trainer{
     private:
         string name;
         TrainerClass tc;
-        vector<Pokemon*> *party;
-
+        vector<Pokemon*> party;
     public:
-        Trainer(string name, TrainerClass tc, vector<Pokemon*> *party);
+        Trainer(string name, TrainerClass tc, vector<Pokemon*> party);
         const string getName() const;
         const TrainerClass getTC() const;
-        const vector<Pokemon*> *getParty() const;
+        vector<Pokemon*> getParty();
         const int getPartySize() const;
         void setPkmn(Pokemon* pkmn, int lvl, vector<Move*> *ms);
         void updateTeam();
+
+        void setParty(const vector<Pokemon*> &party);
 
         Pokemon* getLeadPkmn();
 

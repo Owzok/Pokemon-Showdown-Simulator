@@ -4,7 +4,7 @@ Pokemon::Pokemon(string name, int id, int level, int HP, int ATK, int DEF, int S
         PkmnTypes type2, vector<Move*> *moveset, vector<Move*> *movepool, PkmnStatus Status
         ):name(name),id(id),level(level),ability(ability),type1(type1),type2(type2),HP(HP),ATK(ATK),DEF(DEF),
         SPE(SPE),moveset(moveset),movepool(movepool),Status(Status){
-    updateStats();
+    startStats();
 }
 const string Pokemon::getName() const{
     return name;
@@ -18,23 +18,41 @@ const int Pokemon::getLevel() const{
 void Pokemon::setLevel(const int &level){
     Pokemon::level = level;
 }
-const int Pokemon::getHP() const{
-    return HP;
+void Pokemon::setCurrentHP(const int &HP){
+    Pokemon::cur_hp=HP;
 }
-void Pokemon::setHP(const int &HP){
-    Pokemon::HP=HP;
+const int Pokemon::getMaxHP() const{
+    return max_hp;
+}
+const int Pokemon::getHP() const{
+    return cur_hp;
 }
 const int Pokemon::getATK() const{
-    return ATK;
+    return cur_atk;
 }
 const int Pokemon::getDEF() const{
-    return DEF;
+    return cur_def;
 }
 const int Pokemon::getSPE() const{
+    return cur_spe;
+}
+const int Pokemon::get_baseHP() const{
+    return HP;
+}
+const int Pokemon::get_baseATK() const{
+    return ATK;
+}
+const int Pokemon::get_baseDEF() const{
+    return DEF;
+}
+const int Pokemon::get_baseSPE() const{
     return SPE;
 }
 const string Pokemon::getAB() const{
     return ability;
+}
+const PkmnStatus Pokemon::getStatus() const{
+    return Status;
 }
 
 const PkmnTypes Pokemon::getType1() const{
@@ -60,23 +78,31 @@ void Pokemon::printMoveset(){
     }
 }
 
-void Pokemon::updateStats(){
+string Pokemon::printData(){
+    string data = ("\tPokemon: "+name+"\n\tLevel: "+to_string(level)+"\n\tType 1: " + typeString(type1)+"\n\tType 2: " + typeString(type2)+"\n\tAbility: "+ability+"\n\tStatus: "+statusString(Status)+"\n\tHp: "+to_string(HP)+"\n\tAttack: "+to_string(ATK)+"\n\tDefense: "+to_string(DEF)+"\n\tSpeed: "+to_string(SPE)+"\n");
+    return data;
+}
+
+void Pokemon::startStats(){
     int IV = 15;
     int EV = 85;
-    ATK = floor(0.01*(2*ATK+IV+floor(0.25*EV))*level) + 5;
-    DEF = floor(0.01*(2*DEF+IV+floor(0.25*EV))*level) + 5;
-    SPE = floor(0.01*(2*SPE+IV+floor(0.25*EV))*level) + 5;
-    HP = floor(0.01*(2*HP+IV+floor(0.25*EV))*level) + level + 10;
+    cur_atk = (0.01*(2*ATK+IV+(0.25*EV))*level) + 5;
+    cur_def = (0.01*(2*DEF+IV+(0.25*EV))*level) + 5;
+    cur_spe = (0.01*(2*SPE+IV+(0.25*EV))*level) + 5;
+    cur_hp = (0.01*(2*HP+IV+(0.25*EV))*level) + level + 10;
+    max_hp = (0.01*(2*HP+IV+(0.25*EV))*level) + level + 10;
+}
 
+void Pokemon::updateStats(){
+    startStats();
     switch (Status){
     case PkmnStatus::PARALYZED:
-        SPE /= 2;
+        cur_spe /= 2;
         break;
     case PkmnStatus::BURNED:
-        ATK /= 2;
+        cur_atk /= 2;
         break;
     }
-
 }
 
 void Pokemon::levelup(){
@@ -180,7 +206,7 @@ string Pokemon::typeString(PkmnTypes tipo){
     return "";
 }
 
-string Pokemon::getStatus(){
+string Pokemon::getStatusString(){
     return statusString(Status);
 }
 

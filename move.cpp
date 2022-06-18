@@ -1,13 +1,13 @@
 #include "move.h"
 
 Move::Move(string name, int pp, Category category, int power, int acurracy, string side_effect, PkmnTypes type):name(name),pp(pp),category(category),power(power),acurracy(acurracy),side_effect(side_effect),type(type){
-    Move::currentPP = pp;
+    currentPP = pp;
 }
 const string Move::getName() const{
     return name;
 }
 const int Move::getCurrentPP() const{
-    return Move::currentPP;
+    return currentPP;
 }
 const int Move::getPP() const{
     return pp;
@@ -26,6 +26,10 @@ const string Move::getSideEffect() const{
 }
 const PkmnTypes Move::getMoveType() const{
     return type;
+}
+
+void Move::lessPP(){
+    currentPP--;
 }
 
 string Move::moveTypeString(PkmnTypes tipo){
@@ -91,7 +95,7 @@ string Move::moveTypeString(PkmnTypes tipo){
 }
 
 void Move::printMove(){
-    cout<<name<<"\t"<<moveTypeString(type)<<"\t"<<power<<"\t"<<Move::currentPP<<"/"<<pp<<endl;
+    cout<<name<<"\t"<<moveTypeString(type)<<"\t"<<power<<"\t"<<currentPP<<"/"<<pp<<endl;
 }
 
 Move::~Move(){

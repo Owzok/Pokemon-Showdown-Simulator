@@ -2,15 +2,15 @@
 
 
 //Lucas
-vector<Pokemon*> *LucasParty = new vector<Pokemon*>{Chimchar, Starly};
+vector<Pokemon*> LucasParty = {Chimchar, Starly};
 Trainer *Lucas = new Trainer("Lucas",RICH_BOY,LucasParty);
 
 //Kaitlin
-vector<Pokemon*> *KaitlinParty = new vector<Pokemon*>{Budew, Bidoof, Starly, Abra};
+vector<Pokemon*> KaitlinParty = {Budew, Bidoof, Starly, Abra};
 Trainer *Kaitlin = new Trainer("Kaitlin",LASS,KaitlinParty);
 
 //Cynthia
-vector<Pokemon*> *CynthiaParty = new vector<Pokemon*>{Spiritomb, Roserade, Gastrodon, Lucario, Milotic, Garchomp};
+vector<Pokemon*> CynthiaParty = {Spiritomb, Roserade, Gastrodon, Lucario, Milotic, Garchomp};
 Trainer *Cynthia = new Trainer("Cynthia",CHAMPION,CynthiaParty);
 
 void updateTrainers(){
@@ -18,7 +18,7 @@ void updateTrainers(){
     //Lucas
     Lucas->setPkmn(Chimchar,7,new vector<Move*>{Scratch, Leer});
     Lucas->setPkmn(Starly,7,new vector<Move*>{Tackle, Growl});
-    for(auto pkmn: *LucasParty){
+    for(auto pkmn: LucasParty){
         pkmn->updateStats();
     }
 
@@ -27,7 +27,7 @@ void updateTrainers(){
     Kaitlin->setPkmn(Bidoof,4,new vector<Move*>{Tackle,Growl});
     Kaitlin->setPkmn(Budew,4,new vector<Move*>{Absorb,StunSpore});
     Kaitlin->setPkmn(Abra,4,new vector<Move*>{Teleport});
-    for(auto pkmn: *KaitlinParty){
+    for(auto pkmn: KaitlinParty){
         pkmn->updateStats();
     }
 
@@ -38,7 +38,7 @@ void updateTrainers(){
     Cynthia->setPkmn(Lucario,63,new vector<Move*>{AuraSphere,DragonPulse,Psychic,Earthquake});
     Cynthia->setPkmn(Milotic,63,new vector<Move*>{Surf,IceBeam,MirrorCoat,AquaRing});
     Cynthia->setPkmn(Garchomp,66,new vector<Move*>{DragonRush,Earthquake,BrickBreak,GigaImpact});
-    for(auto pkmn: *CynthiaParty){
+    for(auto pkmn: CynthiaParty){
         pkmn->updateStats();
     }
 }

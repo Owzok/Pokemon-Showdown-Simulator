@@ -13,7 +13,7 @@ Move *QuickAttack = new Move("Quick Attack",30,PHYSICAL,40,100,"*+1",NORMAL);
 Move *FurySwipes = new Move("Fury Swipes",30,PHYSICAL,18,80,"2-35%;3-35%;4-15%;5-15%",NORMAL);
 Move *GigaImpact = new Move("Giga Impact",5,PHYSICAL,150,90,"recharge",NORMAL);
 
-Move *Leer = new Move("Leer",30,STATUS,0,100,"e-1/Def",NORMAL);
+Move *Leer = new Move("Leer",3,STATUS,0,100,"e-1/Def",NORMAL);
 Move *Growl = new Move("Growl",40,STATUS,0,100,"e-1/Atk",NORMAL);
 Move *TailWhip = new Move("Tail Whip",30,STATUS,0,100,"e-1/Def",NORMAL);
 Move *DefenseCurl = new Move("Defense Curl",40,STATUS,0,100,"u+1/Def && *2 Dmg Rollout",NORMAL);

@@ -13,13 +13,13 @@ class Move{
     private:
         string name;
         int pp;
+        int currentPP;
         Category category;
         int power;
         int acurracy;
         string side_effect;
         PkmnTypes type;
-    public:
-        int currentPP;
+    public:    
         Move(string name, int pp, Category category, int power, int acurracy, string side_effect, PkmnTypes type);
         const string getName() const;
         const int getPP() const;
@@ -29,6 +29,7 @@ class Move{
         const int getAccurracy() const;
         const string getSideEffect() const;
         const PkmnTypes getMoveType() const;
+        void lessPP();
 
         string moveTypeString(PkmnTypes tipo);
         void printMove();
