@@ -32,6 +32,8 @@ class Pokemon{
         PkmnTypes type2, vector<Move*> *moveset, vector<Move*> *movepool, PkmnStatus Status
         );
 
+        Pokemon();
+
         const string getName() const;
         const int getId() const;
         const int getLevel() const;

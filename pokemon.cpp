@@ -6,6 +6,10 @@ Pokemon::Pokemon(string name, int id, int level, int HP, int ATK, int DEF, int S
         SPE(SPE),moveset(moveset),movepool(movepool),Status(Status){
     startStats();
 }
+
+Pokemon::Pokemon(){
+
+}
 const string Pokemon::getName() const{
     return name;
 }
