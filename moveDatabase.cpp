@@ -1,108 +1,73 @@
 #include "trainer.cpp"
+#include <map>
 
-//0 = SlEEP ; 1 = FROZEN ; 2 = PARALYZED ; 3 = BURNED ; 4 = POISONED ; 5 = CONFUSED
-
-//  Name   PP  Category    Power   Accurracy   SideEff     Type
-
-//Normal
-
-Move *Scratch = new Move("Scratch",35,PHYSICAL,40,100,"",NORMAL);
-Move *Tackle = new Move("Tackle",35,PHYSICAL,40,100,"",NORMAL);
-Move *Pound = new Move("Pound",35,PHYSICAL,40,100,"",NORMAL);
-Move *QuickAttack = new Move("Quick Attack",30,PHYSICAL,40,100,"*+1",NORMAL);
-Move *FurySwipes = new Move("Fury Swipes",30,PHYSICAL,18,80,"2-35%;3-35%;4-15%;5-15%",NORMAL);
-Move *GigaImpact = new Move("Giga Impact",5,PHYSICAL,150,90,"recharge",NORMAL);
-
-Move *Leer = new Move("Leer",3,STATUS,0,100,"stat|100|-enemy|DEF|1",NORMAL);
-Move *Growl = new Move("Growl",40,STATUS,0,100,"stat|100|-enemy|ATK|1",NORMAL);
-Move *TailWhip = new Move("Tail Whip",30,STATUS,0,100,"stat|100|-enemy|DEF|1",NORMAL);
-Move *DefenseCurl = new Move("Defense Curl",40,STATUS,0,100,"stat|100|+user|DEF|1",NORMAL);
-Move *Growth = new Move("Growth",20,STATUS,0,100,"stat|100|+user|ATK|1",NORMAL);
-Move *DoubleTeam = new Move("Double Team",15,STATUS,0,100,"stat|100|+user|EV|1",NORMAL);
-Move *FocusEnergy = new Move("Focus Energy",30,STATUS,0,100,"Next move is crit",NORMAL);
-Move *Supersonic = new Move("Supersonic",30,STATUS,0,55,"status|100|CFD",NORMAL);
-Move *MeanLook = new Move("Mean Look",5,STATUS,0,100,"e/Can't escape",NORMAL);
-Move *Recover = new Move("Recover",10,STATUS,0,100,"recover|50",NORMAL);
-
-Move *Splash = new Move("Splash",40,STATUS,0,100,"",NORMAL);
-
-//Grass
-Move *Leafage = new Move("Leafage",40,PHYSICAL,40,100,"",GRASS);
-Move *Absorb = new Move("Absorb",25,SPECIAL,20,100,"effect|100|Drain|50",GRASS);
-Move *EnergyBall = new Move("EnergyBall",10,SPECIAL,90,100,"stat|10|-enemy|DEF|1",GRASS);
-
-Move *StunSpore = new Move("Stun Spore",30,STATUS,0,75,"status|100|PAR",GRASS);
-Move *WorrySeed = new Move("Worry Seed",10,STATUS,0,100,"effect|100|enemy|AB|imsomnia",GRASS);
-
-//Water
-Move *WaterGun = new Move("Water Gun",25,SPECIAL,40,100,"",WATER);
-Move *MuddyWater = new Move("Muddy Water",10,SPECIAL,90,85,"stat|30|-enemy|ACC|1",WATER);
-Move *Surf = new Move("Surf",15,SPECIAL,90,85,"",WATER);
-
-Move *Withdraw = new Move("Withdraw",40,STATUS,0,100,"stat|100|+user|DEF|1",WATER);
-Move *AquaRing = new Move("Aqua Ring",20,STATUS,0,0,"+1/16hp every turn",WATER);
-
-//Fairy
-Move *Charm = new Move("Withdraw",20,STATUS,0,100,"stat|100|-enemy|ATK|2",FAIRY);
-
-//Fire
-Move *Ember = new Move("Ember",25,SPECIAL,40,100,"status|10|BRN",FIRE);
-
-//Bug
-Move *SilverWind = new Move("Silver Wind",60,SPECIAL,60,100,"10*/. + all stat",BUG);
-Move *StruggleBug = new Move("Struggle Bug",20,SPECIAL,50,100,"stat|100|-enemy|ATK|1",BUG);
-
-//Fighting
-Move *Revenge = new Move("Revenge",10,PHYSICAL,60,100,"doubles DMG if gets hit",FIGHTING);
-Move *PowerUpPunch = new Move("Power-Up-Punch",20,PHYSICAL,40,100,"stat|100|+user|ATK|1",FIGHTING);
-Move *LowKick = new Move("Low Kick",20,PHYSICAL,0,100,"DmgPerWeight",FIGHTING);
-Move *AuraSphere = new Move("Aura Sphere",20,PHYSICAL,80,100,"",FIGHTING);
-Move *BrickBreak = new Move("Brick Break",15,PHYSICAL,75,100,"Breaks Reflect & Light Screen",FIGHTING);
-
-//Electric
-Move *ThunderShock = new Move("ThunderShock",30,SPECIAL,40,100,"status|10|PAR",ELECRTRIC);
-
-Move *Charge = new Move("Charge",20,SPECIAL,0,100,"Next e-move *2Power && u+1/spd",ELECRTRIC);
-
-//Flying
-Move *WingAttack = new Move("Wing Attack",35,PHYSICAL,60,100,"",FLYING);
-
-//Rock
-Move *Rollout = new Move("Rollout",20,PHYSICAL,30,90,"Power*2->everyTurn",ROCK);
-Move *StoneEdge = new Move("Stone Edge",5,PHYSICAL,100,80,"effect|20|CRIT",ROCK);
-
-//Dark
-Move *DarkPulse = new Move("Dark Pulse",15, SPECIAL,80,100,"effect|20|FLI",DARK);
-
-Move *Embargo = new Move("Embargo",15, STATUS,0,100,"Enemy cannot use items",DARK);
-Move *DarkVoid = new Move("Dark Void",10,STATUS,0,80,"status|100|SLP",DARK);
-Move *Taunt = new Move("Taunt",20,STATUS,0,100,"effect|NO_ATTACKS",DARK);
-
-//Ghost
-Move *Astonish = new Move("Astonish",25,PHYSICAL,50,100,"status|10|CFD",PSYCHIC);
-Move *ShadowBall = new Move("ShadowBall",10,SPECIAL,90,100,"stat|10|-enemy|D|1",GHOST);
-
-//Psychic
-Move *Psychic = new Move("Psychic",10,SPECIAL,90,100,"stat|10|-enemy|D|1",PSYCHIC);
-Move *Confusion = new Move("Confusion",15,PHYSICAL,30,100,"effect|30|FLI",PSYCHIC);
-Move *Extrasensory = new Move("Extrasensory",20,PHYSICAL,80,100,"effect|10|FLI",PSYCHIC); // 
-Move *LusterPurge = new Move("Luster Purge",5,SPECIAL,70,100,"stat|50|-enemy|D|1",PSYCHIC);
-Move *DreamEater = new Move("Dream Eater",15,SPECIAL,100,100,"Enemy needs to be sleep|Recovers 50 dmg",PSYCHIC);
-
-Move *Teleport = new Move("Teleport",20,STATUS,0,100,"Runs from battle",PSYCHIC);   // XD
-Move *MirrorCoat = new Move("Mirror Coat",20,STATUS,0,100,"Special attack counter",PSYCHIC); // Goes last and duplicates received dmg
-Move *LightScreen = new Move("Light Screen",30,STATUS,0,100,"Doubles Defense for 5 turns",PSYCHIC);
-
-
-//Poison
-Move *SludgeBomb = new Move("Sludge Bomb",10,SPECIAL,90,100,"status|30|PSN",POISON); // Status 30% Poison
-
-//Ground
-Move *Earthquake = new Move("Earthquake",10,PHYSICAL,100,100,"",GROUND);
-
-//Dragon
-Move *DragonPulse = new Move("Dragon Pulse",10,SPECIAL,90,100,"",DRAGON);
-Move *DragonRush = new Move("Dragon Rush",10,PHYSICAL,100,75,"effect|20|FLI",DRAGON); // Effect 20% Flinch
-
-//Ice
-Move *IceBeam = new Move("Ice Beam",10,SPECIAL,90,100,"status|10|FRZ",ICE); // Status 10% Freeze
+map<string,Move*> moves = {
+    {"Scratch", new Move("Scratch",35,PHYSICAL,40,100,"",NORMAL),},
+    {"Tackle",new Move("Tackle",35,PHYSICAL,40,100,"",NORMAL)},
+    {"Pound",new Move("Pound",35,PHYSICAL,40,100,"",NORMAL)},
+    {"Quick Attack",new Move("Quick Attack",30,PHYSICAL,40,100,"*+1",NORMAL)},
+    {"Fury Swipes",new Move("Fury Swipes",30,PHYSICAL,18,80,"2-35%3-35%4-15%5-15%",NORMAL)},
+    {"Giga Impact",new Move("Giga Impact",5,PHYSICAL,150,90,"recharge",NORMAL)},
+    {"Leer",new Move("Leer",3,STATUS,0,100,"stat|100|-enemy|DEF|1",NORMAL)},
+    {"Growl",new Move("Growl",40,STATUS,0,100,"stat|100|-enemy|ATK|1",NORMAL)},
+    {"Tail Whip",new Move("Tail Whip",30,STATUS,0,100,"stat|100|-enemy|DEF|1",NORMAL)},
+    {"Defense Curl",new Move("Defense Curl",40,STATUS,0,100,"stat|100|+user|DEF|1",NORMAL)},
+    {"Growth",new Move("Growth",20,STATUS,0,100,"stat|100|+user|ATK|1",NORMAL)},
+    {"Double Team",new Move("Double Team",15,STATUS,0,100,"stat|100|+user|EV|1",NORMAL)},
+    {"Focus Energy",new Move("Focus Energy",30,STATUS,0,100,"Next move is crit",NORMAL)},
+    {"Supersonic",new Move("Supersonic",30,STATUS,0,55,"status|100|CFD",NORMAL)},
+    {"Mean Look",new Move("Mean Look",5,STATUS,0,100,"e/Can't escape",NORMAL)},
+    {"Recover",new Move("Recover",10,STATUS,0,100,"recover|50",NORMAL)},
+    {"Splash",new Move("Splash",40,STATUS,0,100,"",NORMAL)},
+    {"Leafage",new Move("Leafage",40,PHYSICAL,40,100,"",GRASS)},
+    {"Absorb",new Move("Absorb",25,SPECIAL,20,100,"effect|100|Drain|50",GRASS)},
+    {"Energy Ball",new Move("EnergyBall",10,SPECIAL,90,100,"stat|10|-enemy|DEF|1",GRASS)},
+    {"Stun Spore",new Move("Stun Spore",30,STATUS,0,75,"status|100|PAR",GRASS)},
+    {"Worry Seed", new Move("Worry Seed",10,STATUS,0,100,"effect|100|enemy|AB|imsomnia",GRASS) },
+    {"Water Gun",new Move("Water Gun",25,SPECIAL,40,100,"",WATER)},
+    {"Muddy Water", new Move("Muddy Water",10,SPECIAL,90,85,"stat|30|-enemy|ACC|1",WATER)  },
+    {"Surf", new Move("Surf",15,SPECIAL,90,85,"",WATER)},
+    {"Withdraw", new Move("Withdraw",40,STATUS,0,100,"stat|100|+user|DEF|1",WATER) },
+    {"Aqua Ring", new Move("Aqua Ring",20,STATUS,0,0,"+1/16hp every turn",WATER) },
+    {"Withdraw", new Move("Withdraw",20,STATUS,0,100,"stat|100|-enemy|ATK|2",FAIRY) },
+    {"Ember", new Move("Ember",25,SPECIAL,40,100,"status|10|BRN",FIRE) },
+    {"Will-O-Wisp", new Move("Will-O-Wisp",15,STATUS,0,75,"status|100|BRN",FIRE) },
+    {"Silver Wind", new Move("Silver Wind",60,SPECIAL,60,100,"10*/. + all stat",BUG) },
+    {"Struggle Bug", new Move("Struggle Bug",20,SPECIAL,50,100,"stat|100|-enemy|ATK|1",BUG) },
+    {"X-Scissor", new Move("X-Scissor",15,PHYSICAL,80,100,"",BUG) },
+    {"Revenge", new Move("Revenge",10,PHYSICAL,60,100,"doubles DMG if gets hit",FIGHTING) },
+    {"Power-Up-Punch", new Move("Power-Up-Punch",20,PHYSICAL,40,100,"stat|100|+user|ATK|1",FIGHTING) },
+    {"Low Kick", new Move("Low Kick",20,PHYSICAL,0,100,"DmgPerWeight",FIGHTING) },
+    {"Aura Sphere", new Move("Aura Sphere",20,PHYSICAL,80,100,"",FIGHTING) },
+    {"Brick Break", new Move("Brick Break",15,PHYSICAL,75,100,"Breaks Reflect & Light Screen",FIGHTING) },
+    {"Thunder Shock", new Move("Thunder Shock",30,SPECIAL,40,100,"status|10|PAR",ELECRTRIC) },
+    {"Thunderbolt", new Move("Thunderbolt",15,SPECIAL,95,100,"status|10|PAR",ELECRTRIC) },
+    {"Charge", new Move("Charge",20,SPECIAL,0,100,"Next e-2Power && u+1/spd",ELECRTRIC) },
+    {"Wing Attack", new Move("Wing Attack",35,PHYSICAL,60,100,"",FLYING)},
+    {"Rollout", new Move("Rollout",20,PHYSICAL,30,90,"Power*2->everyTurn",ROCK) },
+    {"Stone Edge", new Move("Stone Edge",5,PHYSICAL,100,80,"effect|20|CRIT",ROCK) },
+    {"Rock Slide", new Move("Rock Slide", 10,PHYSICAL,75,90,"effect|30|FLI",ROCK)},
+    {"Dark Pulse", new Move("Dark Pulse",15, SPECIAL,80,100,"effect|20|FLI",DARK)},
+    {"Faint Attack", new Move("Faint Attack",20, SPECIAL,60,100,"",DARK)},
+    {"Pursuit", new Move("Pursuit",20, SPECIAL,40,100,"",DARK)},
+    {"Embargo", new Move("Embargo",15, STATUS,0,100,"Enemy cannot use items",DARK)},
+    {"Dark Void", new Move("Dark Void",10,STATUS,0,80,"status|100|SLP",DARK)},
+    {"Taunt", new Move("Taunt",20,STATUS,0,100,"effect|NO_ATTACKS",DARK)},
+    {"Nasty Plot", new Move("Nasty Plot",20,STATUS,0,100,"stat|100|+user|ATK|2",DARK)},
+    {"Astonish", new Move("Astonish",25,PHYSICAL,50,100,"status|10|CFD",PSYCHIC)},
+    {"Shadow Ball", new Move("Shadow Ball",10,SPECIAL,90,100,"stat|10|-enemy|DEF|1",GHOST)},
+    {"Psychic", new Move("Psychic",10,SPECIAL,90,100,"stat|10|-enemy|DEF|1",PSYCHIC)},
+    {"Confusion", new Move("Confusion",15,PHYSICAL,30,100,"effect|30|FLI",PSYCHIC)},
+    {"Extrasensory", new Move("Extrasensory",20,PHYSICAL,80,100,"effect|10|FLI",PSYCHIC)},
+    {"Luster Purge", new Move("Luster Purge",5,SPECIAL,70,100,"stat|50|-enemy|DEF|1",PSYCHIC)},
+    {"Dream Eater", new Move("Dream Eater",15,SPECIAL,100,100,"Enemy needs to be sleep|Recovers 50 dmg",PSYCHIC)},
+    {"Teleport", new Move("Teleport",20,STATUS,0,100,"Runs from battle",PSYCHIC)},
+    {"Mirror Coat", new Move("Mirror Coat",20,STATUS,0,100,"Special attack counter",PSYCHIC)},
+    {"Light Screen", new Move("Light Screen",30,STATUS,0,100,"Doubles Defense for 5 turns",PSYCHIC)},
+    {"Sludge Bomb",new Move("Sludge Bomb",10,SPECIAL,90,100,"status|30|PSN",POISON)},
+    {"Toxic", new Move("Toxic",10,STATUS,0,75,"status|100|PSN",POISON)},
+    {"Earthquake", new Move("Earthquake",10,PHYSICAL,100,100,"",GROUND)},
+    {"Dragon Pulse", new Move("Dragon Pulse",10,SPECIAL,90,100,"",DRAGON)},
+    {"Dragon Rush", new Move("Dragon Rush",10,PHYSICAL,100,75,"effect|20|FLI",DRAGON)},
+    {"Ice Beam", new Move("Ice Beam",10,SPECIAL,90,100,"status|10|FRZ",ICE)}
+};

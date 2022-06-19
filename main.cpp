@@ -843,7 +843,6 @@ void Battle(Trainer*user, Trainer*enemy){
                         }
                     }
                 }  
-
             break;
             case 3:
                 displayData(userPkmn, enemyPkmn);
