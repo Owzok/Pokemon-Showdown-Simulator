@@ -93,6 +93,8 @@ void Pokemon::startStats(){
 
 void Pokemon::updateStats()
 {
+    if(cur_hp > max_hp)
+        cur_hp = max_hp;
     if(atk_stat_change != 0){
         switch(atk_stat_change){
             case -6:
@@ -216,10 +218,10 @@ void Pokemon::updateStats()
     
     switch (Status){
     case PkmnStatus::PARALYZED:
-        cur_spe /= 2;
+        cur_spe = calcSPE / 2;
         break;
     case PkmnStatus::BURNED:
-        cur_atk /= 2;
+        cur_atk = calcATK / 2;
         break;
     }
 }

@@ -22,6 +22,7 @@ Move *DoubleTeam = new Move("Double Team",15,STATUS,0,100,"stat|100|+user|EV|1",
 Move *FocusEnergy = new Move("Focus Energy",30,STATUS,0,100,"Next move is crit",NORMAL);
 Move *Supersonic = new Move("Supersonic",30,STATUS,0,55,"status|100|CFD",NORMAL);
 Move *MeanLook = new Move("Mean Look",5,STATUS,0,100,"e/Can't escape",NORMAL);
+Move *Recover = new Move("Recover",10,STATUS,0,100,"recover|50",NORMAL);
 
 Move *Splash = new Move("Splash",40,STATUS,0,100,"",NORMAL);
 
@@ -72,8 +73,9 @@ Move *StoneEdge = new Move("Stone Edge",5,PHYSICAL,100,80,"effect|20|CRIT",ROCK)
 
 //Dark
 Move *DarkPulse = new Move("Dark Pulse",15, SPECIAL,80,100,"effect|20|FLI",DARK);
-Move *Embargo = new Move("Embargo",15, STATUS,0,100,"Enemy cannot use items",DARK);
 
+Move *Embargo = new Move("Embargo",15, STATUS,0,100,"Enemy cannot use items",DARK);
+Move *DarkVoid = new Move("Dark Void",10,STATUS,0,80,"status|100|SLP",DARK);
 Move *Taunt = new Move("Taunt",20,STATUS,0,100,"effect|NO_ATTACKS",DARK);
 
 //Ghost
@@ -84,9 +86,13 @@ Move *ShadowBall = new Move("ShadowBall",10,SPECIAL,90,100,"stat|10|-enemy|D|1",
 Move *Psychic = new Move("Psychic",10,SPECIAL,90,100,"stat|10|-enemy|D|1",PSYCHIC);
 Move *Confusion = new Move("Confusion",15,PHYSICAL,30,100,"effect|30|FLI",PSYCHIC);
 Move *Extrasensory = new Move("Extrasensory",20,PHYSICAL,80,100,"effect|10|FLI",PSYCHIC); // 
+Move *LusterPurge = new Move("Luster Purge",5,SPECIAL,70,100,"stat|50|-enemy|D|1",PSYCHIC);
+Move *DreamEater = new Move("Dream Eater",15,SPECIAL,100,100,"Enemy needs to be sleep|Recovers 50 dmg",PSYCHIC);
 
 Move *Teleport = new Move("Teleport",20,STATUS,0,100,"Runs from battle",PSYCHIC);   // XD
 Move *MirrorCoat = new Move("Mirror Coat",20,STATUS,0,100,"Special attack counter",PSYCHIC); // Goes last and duplicates received dmg
+Move *LightScreen = new Move("Light Screen",30,STATUS,0,100,"Doubles Defense for 5 turns",PSYCHIC);
+
 
 //Poison
 Move *SludgeBomb = new Move("Sludge Bomb",10,SPECIAL,90,100,"status|30|PSN",POISON); // Status 30% Poison

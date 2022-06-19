@@ -9,6 +9,8 @@ Trainer *Kaitlin = new Trainer("Kaitlin",LASS,{});
 //Cynthia
 Trainer *Cynthia = new Trainer("Cynthia",CHAMPION,{});
 
+Trainer *Tobias = new Trainer("Tobias", ACE_TRAINER, {});
+
 void fill(Trainer* trainer){
     for(auto pkmn: trainer->getParty()){
         pkmn->startStats();
@@ -17,7 +19,6 @@ void fill(Trainer* trainer){
 
 void chooseTeam(){
     int partySize = 0;
-
 
 }
 
@@ -28,6 +29,7 @@ void updateTrainers(){
     Lucas->setPkmn(Garchomp,66,new vector<Move*>{DragonRush,Earthquake,BrickBreak,GigaImpact});
 
     fill(Lucas);
+
 
     //Kaitlin
     Kaitlin->setPkmn(Starly,4,new vector<Move*>{Tackle,Growl});
@@ -46,5 +48,10 @@ void updateTrainers(){
     Cynthia->setPkmn(Garchomp,66,new vector<Move*>{DragonRush,Earthquake,BrickBreak,GigaImpact});
 
     fill(Cynthia);
+
+    Tobias->setPkmn(Darkrai,100,new vector<Move*>{IceBeam,DarkPulse,DreamEater,DarkVoid});
+    Tobias->setPkmn(Latios,100,new vector<Move*>{GigaImpact, LusterPurge, LightScreen, Recover});
+
+    fill(Tobias);
 
 }

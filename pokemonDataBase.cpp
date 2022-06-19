@@ -42,3 +42,7 @@ Pokemon *Lucario = new Pokemon("Lucario",448,level,70,110,70,90,"Inner Focus",FI
 Pokemon *Milotic = new Pokemon("Milotic",350,level,95,60,79,81,"Competitive",WATER,NONE, moveset, PsyduckMP, HEALTHY);
 
 Pokemon *Garchomp = new Pokemon("Garchomp",445,level,108,130,95,102,"Sand Veil",DRAGON,GROUND, moveset, PsyduckMP, HEALTHY);
+
+Pokemon *Darkrai = new Pokemon("Darkrai",491,level,70,135,90,125,"Bad Dreams",DARK,NONE, moveset, PsyduckMP, HEALTHY);
+
+Pokemon *Latios = new Pokemon("Latios", 381, level, 80,130,110,110,"Levitate", DRAGON,PSYCHIC, moveset, PsyduckMP, HEALTHY);

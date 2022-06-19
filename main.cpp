@@ -12,7 +12,6 @@ ____________________________________________________________
 
         Chimchar used Scratch and dealt 8 dmg.
 ____________________________________________________________*/
-
 void textBox(string text, bool clear){
     if(clear)
         clearScreen();
@@ -21,6 +20,7 @@ void textBox(string text, bool clear){
     cout <<"\t"<<text;
     cout<<" ____________________________________________________________ "<<endl; getch();
 }
+
 
  /*                      _____________________
                         |
@@ -34,7 +34,6 @@ void textBox(string text, bool clear){
 | Chimchar      Lv7
 | PAR HP:21/22
 |______________________*/
-
 void ShowPokemonMenuHUD(Trainer *user, Trainer *foe, Pokemon *userPk, Pokemon *enemyPk){
     clearScreen();
     string userStatus = userPk->getStatusString();
@@ -54,14 +53,14 @@ void ShowPokemonMenuHUD(Trainer *user, Trainer *foe, Pokemon *userPk, Pokemon *e
     cout << "|______________________" << endl;
 }
 
+
 /* movesMenu(userPokemon) : Displays movements and its stats.
 ____________________________________________________________
 
         [1] Scratch     NORMAL  40      35/35
         [2] Leer        NORMAL  0       30/30
+        [3] < Go Back >
 ____________________________________________________________*/
-
-
 Move* movesMenu(Pokemon *userPokemon){
     int temp = 1;
     int chosenMove = 0;
@@ -73,20 +72,26 @@ Move* movesMenu(Pokemon *userPokemon){
         mv->printMove();
         temp++;
     }
+    cout<<"\t\t[" << temp << "] < Go Back >\n";
     cout<<" ____________________________________________________________ "<<endl;
     do{
         cout << "\nWhat move do you want to do?: "; 
         cin >> chosenMove;
+        if(chosenMove == temp){
+            return nullptr;
+        }
         Move* move = moves->at(chosenMove-1);
         if(move->getCurrentPP() == 0){
             cout << "There's no PP left for this move!\n" << endl;
             chosenMove = 10000;
         }
             
-    } while(chosenMove < 1 || chosenMove > temp-1);
+    } while(chosenMove < 1 || chosenMove > temp);
 
     return moves->at(chosenMove-1);
 }
+
+
 
 /* actionsMenu(userPokemon) : Displays which actions the player can do.
 ____________________________________________________________
@@ -96,7 +101,6 @@ ____________________________________________________________
     [2] Change    
     [3] Stats
 ____________________________________________________________*/
-
 int actionsMenu(Pokemon* userPokemon){
     int decision = 0;
     vector<Move*> *moves = userPokemon->getMoveset();
@@ -110,10 +114,11 @@ int actionsMenu(Pokemon* userPokemon){
     return decision;
 }
 
+
+
 // 1 => User is faster
 // 2 => Enemy is faster
 // Speedtie, chooses randomly between 1 and 2
-
 int speedCheck(Pokemon* uPkmn, Pokemon* ePkmn){
     if (uPkmn->getSPE() > ePkmn->getSPE()){
         return 1; //user faster
@@ -124,7 +129,8 @@ int speedCheck(Pokemon* uPkmn, Pokemon* ePkmn){
         return random; //speedtie random between 1 and 2
     }
 }
-// 80 % True (sleep) || 20 % False (wake up)
+
+// 80 % True (confused) || 20 % False (snap out)
 bool statusCFD(Pokemon* pkmn){
     textBox(pkmn->getName()+"is confused!\n",true);
     if(rand()%100+1 < 80){
@@ -179,7 +185,8 @@ bool statusATT(Pokemon* pkmn){
     return false;
 }
 
-// True = Continue, False = STOP
+
+// Checks probabilities and decides to continue or not depending on a pokemon condition
 bool checkStatus(Pokemon *userPkmn){
     PkmnStatus status = userPkmn->getStatus();
     switch(status){
@@ -227,7 +234,8 @@ bool checkStatus(Pokemon *userPkmn){
     return true;
 }
 
-//turns move description into a vector of data
+
+//Turns move description into a vector of data
 vector<string> getSideEffectsFromMove(Move *move){
     string txt = move->getSideEffect();
     vector<string> campos = vector<string>();
@@ -243,8 +251,9 @@ vector<string> getSideEffectsFromMove(Move *move){
     campos.push_back(token);
     return campos;
 }
-/*
-// Move("Stun Spore",30,STATUS,0,75,"s|100|2",GRASS);
+
+
+/* Move("Stun Spore",30,STATUS,0,75,"s|100|2",GRASS);
 // < s , 100 , 2 >
 // [0] = s or ""    =>  Status move effect or not
 // [1] = [0-100]    =>  Probabilty of applying status effect
@@ -257,6 +266,8 @@ vector<string> getSideEffectsFromMove(Move *move){
                             5: Confused
                             6: Attracted
 */
+
+// Checks probabilities of a move to apply a condition on the enemy 
 void movementStatusEffect(Pokemon *user, Pokemon *enemy, Move* move, string status, int chance){
     int status_num;
     if(status == "SLP"){
@@ -271,7 +282,7 @@ void movementStatusEffect(Pokemon *user, Pokemon *enemy, Move* move, string stat
     if(status == "BRN"){
         status_num = 3;
     }
-    if(status == "POI"){
+    if(status == "PSN"){
         status_num = 4;
     }
     if(status == "CFD"){
@@ -350,6 +361,7 @@ void movementStatusEffect(Pokemon *user, Pokemon *enemy, Move* move, string stat
     }
 }
 
+// Given a chance, objective, stat and amount it raises or lowers the stat of a pokemon
 void movementStatEffect(Pokemon *user, Pokemon *enemy, int chance, string who, string stat, int amount){
     // if yes
     if(rand()%100+1 < chance)
@@ -467,16 +479,32 @@ void movementStatEffect(Pokemon *user, Pokemon *enemy, int chance, string who, s
     }
 }
 
-void movementEffect(Pokemon *user, Pokemon *enemy, Move* move){
+// Given a percentage, the pokemon regains health
+void movementRecover(Pokemon *user, double amount){
+    int total_hp = user->getMaxHP();
+
+    int hp_to_recover = total_hp * (amount/100);
+    user->setCurrentHP(user->getHP()+hp_to_recover);
+    textBox(user->getName()+" regained health!\n",true);
+}
+
+// Checks the effect of the given movement
+bool movementEffect(Pokemon *user, Pokemon *enemy, Move* move){
     vector<string> campos = getSideEffectsFromMove(move);
+
+    // CHECKS IF THE MOVEMENT EFFECT IS A STATUS ONE
+    // movementStatusEffect(user, enemy, move, status, chance);
     if (campos.at(0) == "status"){
         int chance = stoi(campos.at(1));
         string status = campos.at(2);
 
         movementStatusEffect(user, enemy, move, status, chance);
     }
+    
+    // CHECKS IF THE MOVEMENT EFFECT IS A STAT ONE
     // stat | 10 | -enemy | D | 1
     //   0     1      2     3   4
+    // movementStatEffect(user, enemy, chance, who, stat, amount);
     if (campos.at(0) == "stat"){
         int chance = stoi(campos.at(1));
         string who = campos.at(2);
@@ -485,6 +513,25 @@ void movementEffect(Pokemon *user, Pokemon *enemy, Move* move){
         
         movementStatEffect(user, enemy, chance, who, stat, amount);
     }
+
+    // CHECKS IF THE MOVEMENT EFFECT IS A RECOVERY ONE
+    // movementRecover(user, percentage);
+    if (campos.at(0) == "recover"){
+        movementRecover(user, stoi(campos.at(1)));
+    }
+
+    if(move->getName() == "Dream Eater"){
+        if(enemy->getStatusString() == "SLP"){
+            movementRecover(user, 30);
+        }
+        else {
+            textBox("But it failed!\n", true);
+            return false;
+        }
+    }
+    
+    
+    return true;
 }
 
 // Damage formula calculator
@@ -495,7 +542,10 @@ int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move){
         return -1;
 
     //checks if move has any status effect, in case it has, it apllies it
-    movementEffect(userPkmn, enemyPokemon, move);
+    if(!movementEffect(userPkmn, enemyPokemon, move)){
+        return 0;
+    }
+    
     //Pokemon Dmg Formula
     if(move->getPower() != 0){
 
@@ -506,6 +556,7 @@ int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move){
         if(rand()%100+1 <= move->getAccurracy()){
             return trunc(trunc(trunc(trunc(trunc(2*userPkmn->getLevel())/5)+2) * move->getPower() * userPkmn->getATK()/enemyPokemon->getDEF())/50)+2;
         } else {
+            textBox(userPkmn->getName()+"'s Attack missed!\n",true);
             return 0;
         } 
     } else {
@@ -528,7 +579,6 @@ ____________________________________________________________
         [2] Budew        lvl.4 
         [3] < Go Back >
 ____________________________________________________________*/
-
 void displayData(Pokemon* user, Pokemon* enemy){
     int decision;
     cout<<"\n ____________________________________________________________ \n\n";
@@ -552,6 +602,7 @@ void displayData(Pokemon* user, Pokemon* enemy){
     }
 }
 
+// Checks if pokemon are dead
 bool checkHps(Pokemon* pkmn1, Pokemon* pkmn2){
     if(pkmn1->getHP() <= 0){
         textBox(pkmn1->getName()+" fainted\n",true);
@@ -584,14 +635,11 @@ bool lose(Trainer* user, Trainer* enemy, bool is_player){
         return true;
     } else {
     //Time to send another pokemon
-        if(is_player){
-            //Pokemon gained x exp points
-            textBox(userPkmn->getName()+" gained "+to_string((int)(pow(3,enemyPkmn->getLevel())))+" exp. points!\n",true);  
-        }
         return false;
     }
 }
 
+// If a pokemon dies it sends the next one in the party
 Pokemon* sendNextPokemon(Trainer *trainer){
     trainer->updateTeam();
     Pokemon *pkmn = trainer->getLeadPkmn();
@@ -600,13 +648,14 @@ Pokemon* sendNextPokemon(Trainer *trainer){
     return pkmn;
 }
 
+
 /* changePokemon(trainer, hp) : Displays movements and its stats.
  ____________________________________________________________
 
         [1] Chimchar    lvl.7   Hp: 25/25
         [2] Starly      lvl.4   Hp: 18/18
+        [3] < Cancel >
 ____________________________________________________________*/
-
 Pokemon* changePokemon(Trainer *&trainer){
     int temp = 1;
     int chosenPokemon = 0;
@@ -618,6 +667,7 @@ Pokemon* changePokemon(Trainer *&trainer){
         cout<< "\t[" << temp << "] " << p->getName() << "\tlvl." << p->getLevel() << "\tHp: " << p->getHP() << "/" << p->getMaxHP() << "\n";
         temp++;
     }
+    cout << "\t["<<temp<<"] < Go Back >\n";
     cout<<"____________________________________________________________ "<<endl;
 
     Pokemon* change_pkmn;
@@ -626,6 +676,9 @@ Pokemon* changePokemon(Trainer *&trainer){
     do{
         cout << "\nChoose a pokemon. ";
         cin >> chosenPokemon;
+        if(chosenPokemon == temp){
+            return nullptr;
+        }
         change_pkmn = party.at(chosenPokemon-1);
         temp_pkmn = trainer->getLeadPkmn();
 
@@ -640,12 +693,13 @@ Pokemon* changePokemon(Trainer *&trainer){
             chosenPokemon = 10000;
         }
 
-    } while(chosenPokemon < 1 || chosenPokemon > temp-1);
+    } while(chosenPokemon < 1 || chosenPokemon > temp);
 
     trainer->setParty(party);
     return change_pkmn;
 }
 
+// Main Function
 void Battle(Trainer*user, Trainer*enemy){
     string partyballs(enemy->getPartySize(),'O');
     string emptyballs(6-enemy->getPartySize(),'X');
@@ -659,6 +713,8 @@ void Battle(Trainer*user, Trainer*enemy){
     int menuDecision = 0;
     int speedTurn;
     int calc_dmg = 0;
+
+    Pokemon* entryPkmn;
 
     textBox(enemy->classtring(enemy->getTC())+" "+enemy->getName()+" sent out "+enemyPkmn->getName()+"!\n ",true);
     clearScreen();
@@ -687,6 +743,8 @@ void Battle(Trainer*user, Trainer*enemy){
         switch(menuDecision){
             case 1:
                 userMove = movesMenu(userPkmn);
+                if(userMove == nullptr)
+                    break;
                 enemyMove = enemyAttack(enemy, enemyPkmn);
                 speedTurn = speedCheck(userPkmn,enemyPkmn);
                 clearScreen();
@@ -768,7 +826,12 @@ void Battle(Trainer*user, Trainer*enemy){
             break;
             case 2:
                 //textBox("Who do you want to change?\n", true);
-                userPkmn = changePokemon(user);
+                
+                entryPkmn = changePokemon(user);
+                if(entryPkmn  == nullptr){
+                    break;
+                }
+                userPkmn = entryPkmn;
                 enemyMove = enemyAttack(enemy, enemyPkmn);
                 textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",true);
                 calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove);
@@ -787,7 +850,6 @@ void Battle(Trainer*user, Trainer*enemy){
                 }  
 
             break;
-
             case 3:
                 displayData(userPkmn, enemyPkmn);
             break;
@@ -804,6 +866,6 @@ int main(){
     //Lucas->mostrarEquipo();
     //Kaitlin->mostrarEquipo();
 
-    Battle(Lucas, Kaitlin);
+    Battle(Tobias, Cynthia);
     return 0;
 }
