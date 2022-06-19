@@ -95,7 +95,7 @@ string Move::moveTypeString(PkmnTypes tipo){
 }
 
 void Move::printMove(){
-    cout<<name<<"\t"<<moveTypeString(type)<<"\t"<<power<<"\t"<<currentPP<<"/"<<pp<<endl;
+    cout<<name<<"       \t"<<moveTypeString(type)<<"\t\t"<<power<<"\t"<<currentPP<<"/"<<pp<<endl;
 }
 
 Move::~Move(){

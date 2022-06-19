@@ -1,7 +1,7 @@
 #include "pokemon.h"
 
 Pokemon::Pokemon(string name, int id, int level, int HP, int ATK, int DEF, int SPE, string ability, PkmnTypes type1, 
-        PkmnTypes type2, vector<Move*> *moveset, vector<Move*> *movepool, PkmnStatus Status
+        PkmnTypes type2, vector<Move*> moveset, vector<Move*> movepool, PkmnStatus Status
         ):name(name),id(id),level(level),ability(ability),type1(type1),type2(type2),HP(HP),ATK(ATK),DEF(DEF),
         SPE(SPE),moveset(moveset),movepool(movepool),Status(Status)
         {
@@ -54,9 +54,9 @@ const int Pokemon::get_baseSPE() const{ return SPE; }
 const int Pokemon::getSPEchange() const{ return spe_stat_change; }
 
 // ---------- MOVES ----------
-vector<Move*> *Pokemon::getMoveset(){ return moveset; }
+vector<Move*> Pokemon::getMoveset(){ return moveset; }
 
-vector<Move*> *Pokemon::getMovepool(){ return movepool; }
+vector<Move*> Pokemon::getMovepool(){ return movepool; }
 
 // =============== SETTERS ===============
 void Pokemon::setLevel(const int &lvl){ level = lvl; }
@@ -76,7 +76,7 @@ void Pokemon::setDEFChange(const int &change){ def_stat_change = change; }
 void Pokemon::setSPEChange(const int &change){ spe_stat_change = change; }
 
 // ---------- MOVES ----------
-void Pokemon::setMoveset(vector<Move*> *moveset){ Pokemon::moveset = moveset; }
+void Pokemon::setMoveset(vector<Move*> moveset){ Pokemon::moveset = moveset; }
 
 // =============== METHODS ===============
 void Pokemon::startStats(){
@@ -244,7 +244,7 @@ void Pokemon::boost(int stat, int amount){
 
 // ---------- PRINTERS ----------
 void Pokemon::printMoveset(){
-    for(auto mve: *moveset){
+    for(auto mve: moveset){
         mve->printMove();
     }
 }
@@ -267,24 +267,17 @@ string Pokemon::printData(){
 }
 
 void Pokemon::mostrar(){
-    cout << "\n-------------" << endl;
-    cout << getName() << "\tID: " << getId() << endl;
-    cout << "\nLevel: " << getLevel() << "\t";
-    cout << "HP: " << getHP() << "\t";
-    cout << "ATK: " << getATK() << "\t";
-    cout << "DEF: " << getDEF() << "\t";
-    cout << "SPE: " << getSPE() << endl;
-    cout << "\nTypes: ";
+    cout << getName() << "\nID: " << getId() << endl;
+    cout << "HP: " << get_baseHP() << "\t";
+    cout << "ATK: " << get_baseATK() << "\t";
+    cout << "DEF: " << get_baseDEF() << "\t";
+    cout << "SPE: " << get_baseSPE() << endl;
+    cout << "Types: ";
     cout << typeString(getType1());
     if(typeString(getType2()) != "NONE"){
         cout << ", " << typeString(getType2());
     }
     cout << "\tAbility: " << getAB() << endl;
-    cout << "\nMoves: \t name \t power \t acc \t pp's \t type" << endl;
-    for(auto m: *moveset){
-        cout << "\t" << m->getName() << "\t" << m->getPower() << "\t" << m->getAccurracy() << "\t" << m->getPP() << "\t" << typeString(m->getMoveType()) << endl;
-    }
-    cout<<endl;
 }
 
 string Pokemon::statusString(PkmnStatus status){

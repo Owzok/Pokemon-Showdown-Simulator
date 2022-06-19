@@ -34,7 +34,7 @@ const int Trainer::getPartySize() const{
     return party.size();
 }
 
-void Trainer::setPkmn(Pokemon* pkmn, int lvl, vector<Move*>*ms){
+void Trainer::setPkmn(Pokemon* pkmn, int lvl, vector<Move*>ms){
     pkmn->setLevel(lvl);
     pkmn->setMoveset(ms);
     party.push_back(pkmn);
@@ -46,9 +46,12 @@ void Trainer::setPkmn(Pokemon* pkmn, int lvl, vector<Move*>*ms){
         }
     }*/
 }
+void Trainer::setName(const string &nm){
+    name = nm;
+}
 
 void Trainer::setParty(const vector<Pokemon*> &par){
-    Trainer::party = par;
+    party = par;
 }
 
 

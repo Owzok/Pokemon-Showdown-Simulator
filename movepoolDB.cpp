@@ -1,6 +1,6 @@
 #include "moveDataBase.cpp"
 
-vector<Move*> *TurtwigMP = new vector<Move*>{
+vector<Move*> TurtwigMP{
     Scratch, 
     Leer, 
     Ember, 
@@ -8,7 +8,7 @@ vector<Move*> *TurtwigMP = new vector<Move*>{
     PowerUpPunch
 };
 
-vector<Move*> *ChimcharMP = new vector<Move*>{
+vector<Move*> ChimcharMP{
     Scratch, 
     Leer, 
     Ember, 
@@ -17,7 +17,7 @@ vector<Move*> *ChimcharMP = new vector<Move*>{
 };
 
 
-vector<Move*> *PiplupMP = new vector<Move*>{
+vector<Move*> PiplupMP{
     Scratch, 
     Leer, 
     Ember, 
@@ -25,7 +25,7 @@ vector<Move*> *PiplupMP = new vector<Move*>{
     PowerUpPunch
 };
 
-vector<Move*> *StarlyMP = new vector<Move*>{
+vector<Move*> StarlyMP{
     Tackle, 
     Growl, 
     QuickAttack, 
@@ -33,7 +33,7 @@ vector<Move*> *StarlyMP = new vector<Move*>{
     DoubleTeam
 };
 
-vector<Move*> *BidoofMP = new vector<Move*>{
+vector<Move*> BidoofMP{
     Tackle, 
     Growl, 
     DefenseCurl, 
@@ -41,21 +41,21 @@ vector<Move*> *BidoofMP = new vector<Move*>{
 
 };
 
-vector<Move*> *KricketotMP = new vector<Move*>{
+vector<Move*> KricketotMP{
     Growl, 
     Pound, 
     StruggleBug
 };
 
 
-vector<Move*> *ShinxMP = new vector<Move*>{
+vector<Move*> ShinxMP{
     Tackle, 
     Leer, 
     ThunderShock, 
     Charge
 };
 
-vector<Move*> *BudewMP = new vector<Move*>{
+vector<Move*> BudewMP{
     Absorb, 
     Growth, 
     StunSpore, 
@@ -63,25 +63,25 @@ vector<Move*> *BudewMP = new vector<Move*>{
     
 };
 
-vector<Move*> *AbraMP = new vector<Move*>{
+vector<Move*> AbraMP{
     Teleport
     
 };
 
-vector<Move*> *MagikarpMP = new vector<Move*>{
+vector<Move*> MagikarpMP{
     Splash,
     Tackle
     
 };
 
-vector<Move*> *GeodudeMP = new vector<Move*>{
+vector<Move*> GeodudeMP{
     Tackle,
     DefenseCurl,
     Rollout
     
 };
 
-vector<Move*> *MachopMP = new vector<Move*>{
+vector<Move*> MachopMP{
     LowKick,
     Leer,
     FocusEnergy,
@@ -89,7 +89,7 @@ vector<Move*> *MachopMP = new vector<Move*>{
     
 };
 
-vector<Move*> *PsyduckMP = new vector<Move*>{
+vector<Move*> PsyduckMP{
     Scratch,
     TailWhip,
     WaterGun,
@@ -98,7 +98,7 @@ vector<Move*> *PsyduckMP = new vector<Move*>{
     
 };
 
-vector<Move*> *ZubatMP = new vector<Move*>{
+vector<Move*> ZubatMP{
     Absorb,
     Supersonic,
     Astonish,
@@ -106,14 +106,14 @@ vector<Move*> *ZubatMP = new vector<Move*>{
 
 };
 
-vector<Move*> *SpiritombMP = new vector<Move*>{
+vector<Move*> SpiritombMP{
     DarkPulse,
     Psychic,
     SilverWind,
     Embargo
 };
 
-vector<Move*> *RoseradeMP = new vector<Move*>{
+vector<Move*> RoseradeMP{
     EnergyBall,
     SludgeBomb,
     ShadowBall,
@@ -121,7 +121,7 @@ vector<Move*> *RoseradeMP = new vector<Move*>{
 
 };
 
-vector<Move*> *GastrodonMP = new vector<Move*>{
+vector<Move*> GastrodonMP{
     MuddyWater,
     Earthquake,
     StoneEdge,
@@ -129,7 +129,7 @@ vector<Move*> *GastrodonMP = new vector<Move*>{
 
 };
 
-vector<Move*> *LucarioMP = new vector<Move*>{
+vector<Move*> LucarioMP{
     AuraSphere,
     DragonPulse,
     Psychic,
@@ -137,7 +137,7 @@ vector<Move*> *LucarioMP = new vector<Move*>{
 
 };
 
-vector<Move*> *MiloticMP = new vector<Move*>{
+vector<Move*> MiloticMP{
     Surf,
     IceBeam,
     MirrorCoat,
@@ -145,10 +145,24 @@ vector<Move*> *MiloticMP = new vector<Move*>{
 
 };
 
-vector<Move*> *GarchompMP = new vector<Move*>{
+vector<Move*> GarchompMP{
     DragonRush,
     Earthquake,
     BrickBreak,
     GigaImpact
     
+};
+
+vector<Move*> DarkraiMP{
+    IceBeam,
+    DarkPulse,
+    DreamEater,
+    DarkVoid
+};
+
+vector<Move*> LatiosMP{
+    GigaImpact,
+    LusterPurge,
+    LightScreen,
+    Recover
 };

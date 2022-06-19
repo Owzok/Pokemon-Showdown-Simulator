@@ -1,11 +1,6 @@
 #include "trainerDB.cpp"
 #include <stdlib.h>
 #include <time.h>
-#include <conio.h>
-
-void clearScreen(){
-    system("cls");
-}
 
 /* TextBox (text, clear) : Given a text, pops up a text box with it. The clear bool is to do or not a cls before the text box is shown .
 ____________________________________________________________
@@ -64,10 +59,10 @@ ____________________________________________________________*/
 Move* movesMenu(Pokemon *userPokemon){
     int temp = 1;
     int chosenMove = 0;
-    vector<Move*> *moves = userPokemon->getMoveset();
+    vector<Move*> moves = userPokemon->getMoveset();
 
     cout<<"\n ____________________________________________________________ \n\n";
-    for(auto mv: *moves){
+    for(auto mv: moves){
         cout<< "\t[" << temp << "] ";
         mv->printMove();
         temp++;
@@ -79,8 +74,8 @@ Move* movesMenu(Pokemon *userPokemon){
         cin >> chosenMove;
         if(chosenMove == temp){
             return nullptr;
-        }
-        Move* move = moves->at(chosenMove-1);
+        }    
+        Move* move = moves.at(chosenMove-1);
         if(move->getCurrentPP() == 0){
             cout << "There's no PP left for this move!\n" << endl;
             chosenMove = 10000;
@@ -88,7 +83,7 @@ Move* movesMenu(Pokemon *userPokemon){
             
     } while(chosenMove < 1 || chosenMove > temp);
 
-    return moves->at(chosenMove-1);
+    return moves.at(chosenMove-1);
 }
 
 
@@ -103,7 +98,7 @@ ____________________________________________________________
 ____________________________________________________________*/
 int actionsMenu(Pokemon* userPokemon){
     int decision = 0;
-    vector<Move*> *moves = userPokemon->getMoveset();
+    vector<Move*> moves = userPokemon->getMoveset();
 
     cout<<"\n ____________________________________________________________ \n\n";
     cout<<"\tWhat will "<<userPokemon->getName()<<" do?\n\t[1] Fight \n\t"<<"[2] Change \n\t[3] Stats\n";
@@ -567,9 +562,9 @@ int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move){
 // Enemy chooses randomly between [1-4] <= movement vector size 
 Move* enemyAttack(Trainer *enemy, Pokemon *enemyPokemon){
     //Get moveset of the enemy and get a random move between them
-    vector<Move*> *moves = enemyPokemon->getMoveset();
-    int randomNum = rand() % moves->size();
-    return moves->at(randomNum);
+    vector<Move*> moves = enemyPokemon->getMoveset();
+    int randomNum = rand() % moves.size();
+    return moves.at(randomNum);
 }
 
 /* displayData() : Displays pokemon data
@@ -866,6 +861,6 @@ int main(){
     //Lucas->mostrarEquipo();
     //Kaitlin->mostrarEquipo();
 
-    Battle(Tobias, Cynthia);
+    Battle(player, Cynthia);
     return 0;
 }

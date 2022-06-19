@@ -24,14 +24,14 @@ class Pokemon{
 
         PkmnTypes type1, type2;
 
-        vector<Move*> *moveset;
-        vector<Move*> *movepool;
+        vector<Move*> moveset;
+        vector<Move*> movepool;
 
         PkmnStatus Status;
 
     public:
         Pokemon(string name, int id, int level, int HP, int ATK, int DEF, int SPE, string ability, PkmnTypes type1, 
-        PkmnTypes type2, vector<Move*> *moveset, vector<Move*> *movepool, PkmnStatus Status
+        PkmnTypes type2, vector<Move*> moveset, vector<Move*> movepool, PkmnStatus Status
         );
 
 // =============== GETTERS ===============
@@ -65,8 +65,8 @@ class Pokemon{
         const int getSPE() const; 
 
 // ---------- MOVES ----------
-        vector<Move*> *getMoveset();
-        vector<Move*> *getMovepool();
+        vector<Move*> getMoveset();
+        vector<Move*> getMovepool();
 
 // =============== SETTERS ===============
         void setLevel(const int &level);
@@ -85,7 +85,7 @@ class Pokemon{
         void setSPEChange(const int &change);
 
 // ---------- MOVES ----------
-        void setMoveset(vector<Move*> *moveset);
+        void setMoveset(vector<Move*> moveset);
 
 // =============== METHODS ===============
         void startStats();
