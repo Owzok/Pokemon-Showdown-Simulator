@@ -98,14 +98,36 @@ void Pokemon::setSPEChange(const int &change){ spe_stat_change = change; }
 // ---------- MOVES ----------
 void Pokemon::setMoveset(vector<Move*> moveset){ Pokemon::moveset = moveset; }
 
+int IV(){
+    return rand()%31+1;
+}
+
+int EV(int &left){
+    if(left < 1){
+        return 0;
+    }
+    if(left < 253){
+        int ev = rand()%left+1;
+        left -= ev;
+        return ev;
+    }else{
+        int ev = rand()%252+1;
+        left -= ev;
+        return ev;
+    }        
+}
+
 // =============== METHODS ===============
 void Pokemon::startStats(){
-    calcATK = (0.01*(2*ATK+36)*level) + 5;
-    calcDEF = (0.01*(2*DEF+36)*level) + 5;
-    calcSPA = (0.01*(2*SPA+36)*level) + 5;
-    calcSPD = (0.01*(2*SPD+36)*level) + 5;
-    calcSPE = (0.01*(2*SPE+36)*level) + 5;
-    max_hp = (0.01*(2*HP+36)*level) + level + 10;
+    int evs_left = 512;
+    atk_ev = EV(evs_left); def_ev = EV(evs_left); spa_ev = EV(evs_left); spd_ev = EV(evs_left); spe_ev = EV(evs_left);
+    atk_iv = IV(); def_iv = IV(); spa_iv = IV(); spd_iv = IV(); spe_iv = IV();
+    calcATK = (0.01*(2*ATK+atk_iv+(atk_ev/4))*level) + 5;
+    calcDEF = (0.01*(2*DEF+def_iv+(def_ev/4))*level) + 5;
+    calcSPA = (0.01*(2*SPA+spa_iv+(spa_ev/4))*level) + 5;
+    calcSPD = (0.01*(2*SPD+spd_iv+(spd_ev/4))*level) + 5;
+    calcSPE = (0.01*(2*SPE+spe_iv+(spe_ev/4))*level) + 5;
+    max_hp = (0.01*(2*HP+hp_iv+(hp_ev/4))*level) + level + 10;
 
     cur_atk = calcATK;
     cur_def = calcDEF;
@@ -286,6 +308,8 @@ string Pokemon::printData(){
     "\tSp. Attack: "+to_string(cur_spa)+"\n"
     "\tSp. Defense: "+to_string(cur_spd)+"\n"
     "\tSpeed: "+to_string(cur_spe)+"\n"
+    "\tEVS: "+to_string(atk_ev)+","+to_string(def_ev)+","+to_string(spa_ev)+","+to_string(spd_ev)+","+to_string(spe_ev)+",\n"
+    "\tIVS: "+to_string(atk_iv)+","+to_string(def_iv)+","+to_string(spa_iv)+","+to_string(spd_iv)+","+to_string(spe_iv)+",\n"
     "\tAtk Modifier: "+to_string(atk_stat_change)+"\n"
     "\tDefense Modifier: "+to_string(def_stat_change)+"\n"
     "\tSp. Attack Modifier: "+to_string(spa_stat_change)+"\n"

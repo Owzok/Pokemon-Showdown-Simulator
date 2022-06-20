@@ -18,6 +18,10 @@ class Pokemon{
 
         int atk_stat_change, def_stat_change, spa_stat_change, spd_stat_change, spe_stat_change;
 
+        int hp_ev, atk_ev, def_ev, spa_ev, spd_ev, spe_ev;
+
+        int hp_iv, atk_iv, def_iv, spa_iv, spd_iv, spe_iv;
+
 // ----------- DATA -----------
         string ability;
         string name;
