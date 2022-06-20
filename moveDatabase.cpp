@@ -1,4 +1,5 @@
 #include "trainer.cpp"
+#include <map>
 
 map<string,Move*> moves = {
     {"Scratch", new Move("Scratch",35,PHYSICAL,40,100,"",NORMAL),},
