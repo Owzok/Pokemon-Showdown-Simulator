@@ -16,8 +16,7 @@ void textBox(string text, bool clear){
     cout<<" ____________________________________________________________ "<<endl; getch();
 }
 
-
- /*                      _____________________
+/*                       _____________________
                         |
                         | Budew Lv4
                         |  HP:16/16
@@ -47,7 +46,6 @@ void ShowPokemonMenuHUD(Trainer *user, Trainer *foe, Pokemon *userPk, Pokemon *e
     cout << "| " << userStatus << " HP:" << userPk->getHP() << "/" << userPk->getMaxHP() << endl;  
     cout << "|______________________" << endl;
 }
-
 
 /* movesMenu(userPokemon) : Displays movements and its stats.
 ____________________________________________________________
@@ -86,8 +84,6 @@ Move* movesMenu(Pokemon *userPokemon){
     return moves.at(chosenMove-1);
 }
 
-
-
 /* actionsMenu(userPokemon) : Displays which actions the player can do.
 ____________________________________________________________
 
@@ -108,8 +104,6 @@ int actionsMenu(Pokemon* userPokemon){
 
     return decision;
 }
-
-
 
 // 1 => User is faster
 // 2 => Enemy is faster
@@ -180,7 +174,6 @@ bool statusATT(Pokemon* pkmn){
     return false;
 }
 
-
 // Checks probabilities and decides to continue or not depending on a pokemon condition
 bool checkStatus(Pokemon *userPkmn){
     PkmnStatus status = userPkmn->getStatus();
@@ -228,7 +221,6 @@ bool checkStatus(Pokemon *userPkmn){
     }
     return true;
 }
-
 
 //Turns move description into a vector of data
 vector<string> getSideEffectsFromMove(Move *move){
@@ -529,6 +521,46 @@ bool movementEffect(Pokemon *user, Pokemon *enemy, Move* move){
     return true;
 }
 
+void effectivenessMessage(double x){
+    if(x == 0){
+        textBox("It doesn't affect.\n",true);
+    } else if(x < 1){
+        textBox("Its not very effective!\n",true);
+    } else if(x > 1){
+        textBox("Its super effective!\n",true);
+    }
+}
+
+bool STAB(Pokemon *user, Move* move){
+    if(move->getMoveType() == user->getType1() || move->getMoveType() == user->getType2()){
+        return true;
+    }
+    return false;
+}
+
+int calcEffectiveness(Pokemon *enemy, Move *move){
+    //Pkmn(pokemones.at("Spiritomb"),61,{moves.at("Dark Pulse"),moves.at("Shadow Ball"),moves.at("Psychic"),moves.at("Embargo")});
+    PkmnTypes moveType = move->getMoveType();
+    PkmnTypes pkmnType1 = enemy->getType1();
+    PkmnTypes pkmnType2 = enemy->getType2();
+
+    //textBox("Move type: " +enemy->typeString(moveType)+"\nPkmn types: "+enemy->typeString(pkmnType1)+"|"+enemy->typeString(pkmnType2)+"\n\n",true);\
+    
+    map<PkmnTypes, double> effectiveMap = Effectiveness.at(moveType);
+    double effectiveness1 = effectiveMap.at(pkmnType1);
+
+    if(pkmnType2 != NONE){
+        double effectiveness2 = effectiveMap.at(pkmnType2);
+        //textBox("Effectiveness: "+to_string(effectiveness1*effectiveness2)+"\n",true);
+        effectivenessMessage(effectiveness1*effectiveness2);
+        return effectiveness1 * effectiveness2;
+    } else {
+        //textBox("Effectiveness: "+to_string(effectiveness1)+"\n",true);
+        effectivenessMessage(effectiveness1);
+        return effectiveness1;
+    }
+}
+
 // Damage formula calculator
 int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move){
     move->lessPP();
@@ -548,8 +580,14 @@ int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move){
         if(userPkmn->getStatusString() == "BRN")
             atk_stat /= 2;
 
+        int effectiveness = calcEffectiveness(enemyPokemon, move);
+
+        double stab = 1;
+        if(STAB(userPkmn, move))
+            stab = 1.5;
+
         if(rand()%100+1 <= move->getAccurracy()){
-            return trunc(trunc(trunc(trunc(trunc(2*userPkmn->getLevel())/5)+2) * move->getPower() * userPkmn->getATK()/enemyPokemon->getDEF())/50)+2;
+            return trunc(trunc(trunc(trunc(trunc(trunc(2*userPkmn->getLevel())/5)+2) * move->getPower() * userPkmn->getATK()/enemyPokemon->getDEF())/50)+2)*effectiveness * stab;
         } else {
             textBox(userPkmn->getName()+"'s Attack missed!\n",true);
             return 0;
@@ -843,7 +881,6 @@ void Battle(Trainer*user, Trainer*enemy){
                         }
                     }
                 }  
-
             break;
             case 3:
                 displayData(userPkmn, enemyPkmn);

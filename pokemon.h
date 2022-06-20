@@ -1,4 +1,4 @@
-#include "move.cpp"
+#include "typeEffectivenessDB.cpp"
 using namespace std;
 
 class Pokemon{

@@ -3,6 +3,7 @@
 #include <vector>
 #include <cmath>
 #include <array>
+#include <map>
 using namespace std;
 
 enum PkmnTypes{BUG, DARK, DRAGON, ELECRTRIC, FAIRY, FIGHTING, FIRE, FLYING, GHOST, GRASS, GROUND, ICE, NORMAL, POISON, PSYCHIC, ROCK, STEEL, WATER, NONE };

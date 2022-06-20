@@ -1,168 +1,172 @@
 #include "moveDataBase.cpp"
 
 vector<Move*> TurtwigMP{
-    Scratch, 
-    Leer, 
-    Ember, 
-    Taunt, 
-    PowerUpPunch
+    moves.at("Scratch"), 
+    moves.at("Leer"), 
+    moves.at("Ember"), 
+    moves.at("Taunt"), 
+    moves.at("Power-Up-Punch")
 };
 
 vector<Move*> ChimcharMP{
-    Scratch, 
-    Leer, 
-    Ember, 
-    Taunt, 
-    PowerUpPunch
+    moves.at("Scratch"), 
+    moves.at("Leer"), 
+    moves.at("Ember"), 
+    moves.at("Taunt"), 
+    moves.at("Power-Up-Punch")
 };
 
 
 vector<Move*> PiplupMP{
-    Scratch, 
-    Leer, 
-    Ember, 
-    Taunt, 
-    PowerUpPunch
+    moves.at("Scratch"), 
+    moves.at("Leer"), 
+    moves.at("Ember"), 
+    moves.at("Taunt"), 
+    moves.at("Power-Up-Punch")
 };
 
 vector<Move*> StarlyMP{
-    Tackle, 
-    Growl, 
-    QuickAttack, 
-    WingAttack, 
-    DoubleTeam
+    moves.at("Tackle"), 
+    moves.at("Growl"), 
+    moves.at("Quick Attack"), 
+    moves.at("Wing Attack"), 
+    moves.at("Double Team")
 };
 
 vector<Move*> BidoofMP{
-    Tackle, 
-    Growl, 
-    DefenseCurl, 
-    Rollout
+    moves.at("Tackle"), 
+    moves.at("Growl"), 
+    moves.at("Defense Curl"), 
+    moves.at("Rollout")
 
 };
 
 vector<Move*> KricketotMP{
-    Growl, 
-    Pound, 
-    StruggleBug
+    moves.at("Growl"), 
+    moves.at("Pound"), 
+    moves.at("Struggle Bug")
 };
 
 
 vector<Move*> ShinxMP{
-    Tackle, 
-    Leer, 
-    ThunderShock, 
-    Charge
+    moves.at("Tackle"), 
+    moves.at("Leer"), 
+    moves.at("Thunder Shock"), 
+    moves.at("Charge")
 };
 
 vector<Move*> BudewMP{
-    Absorb, 
-    Growth, 
-    StunSpore, 
-    WorrySeed
-    
+    moves.at("Absorb"), 
+    moves.at("Growth"), 
+    moves.at("Stun Spore"), 
+    moves.at("Worry Seed")
 };
 
 vector<Move*> AbraMP{
-    Teleport
-    
+    moves.at("Teleport")
 };
 
 vector<Move*> MagikarpMP{
-    Splash,
-    Tackle
-    
+    moves.at("Splash"),
+    moves.at("Tackle")
 };
 
 vector<Move*> GeodudeMP{
-    Tackle,
-    DefenseCurl,
-    Rollout
-    
+    moves.at("Tackle"),
+    moves.at("Defense Curl"),
+    moves.at("Rollout")
 };
 
 vector<Move*> MachopMP{
-    LowKick,
-    Leer,
-    FocusEnergy,
-    Revenge
-    
+    moves.at("Low Kick"),
+    moves.at("Leer"),
+    moves.at("Focus Energy"),
+    moves.at("Revenge")
 };
 
 vector<Move*> PsyduckMP{
-    Scratch,
-    TailWhip,
-    WaterGun,
-    Confusion,
-    FurySwipes
-    
+    moves.at("Scratch"),
+    moves.at("Tail Whip"),
+    moves.at("Water Gun"),
+    moves.at("Confusion"),
+    moves.at("Fury Swipes")
 };
 
 vector<Move*> ZubatMP{
-    Absorb,
-    Supersonic,
-    Astonish,
-    MeanLook
+    moves.at("Absorb"),
+    moves.at("Supersonic"),
+    moves.at("Astonish"),
+    moves.at("Mean Look")
 
 };
 
 vector<Move*> SpiritombMP{
-    DarkPulse,
-    Psychic,
-    SilverWind,
-    Embargo
+    moves.at("Dark Pulse"),
+    moves.at("Psychic"),
+    moves.at("Silver Wind"),
+    moves.at("Embargo")
 };
 
 vector<Move*> RoseradeMP{
-    EnergyBall,
-    SludgeBomb,
-    ShadowBall,
-    Extrasensory
+    moves.at("Energy Ball"),
+    moves.at("Sludge Bomb"),
+    moves.at("Shadow Ball"),
+    moves.at("Extrasensory")
 
 };
 
 vector<Move*> GastrodonMP{
-    MuddyWater,
-    Earthquake,
-    StoneEdge,
-    SludgeBomb
+    moves.at("Muddy Water"),
+    moves.at("Earthquake"),
+    moves.at("Stone Edge"),
+    moves.at("Sludge Bomb")
 
 };
 
 vector<Move*> LucarioMP{
-    AuraSphere,
-    DragonPulse,
-    Psychic,
-    Earthquake
+    moves.at("Aura Sphere"),
+    moves.at("Dragon Pulse"),
+    moves.at("Psychic"),
+    moves.at("Earthquake")
 
 };
 
 vector<Move*> MiloticMP{
-    Surf,
-    IceBeam,
-    MirrorCoat,
-    AquaRing
+    moves.at("Surf"),
+    moves.at("Ice Beam"),
+    moves.at("Mirror Coat"),
+    moves.at("Aqua Ring")
 
 };
 
 vector<Move*> GarchompMP{
-    DragonRush,
-    Earthquake,
-    BrickBreak,
-    GigaImpact
-    
+    moves.at("Dragon Rush"),
+    moves.at("Earthquake"),
+    moves.at("Brick Break"),
+    moves.at("Giga Impact")
 };
 
 vector<Move*> DarkraiMP{
-    IceBeam,
-    DarkPulse,
-    DreamEater,
-    DarkVoid
+    moves.at("Quick Attack"),
+    moves.at("Pursuit"),
+    moves.at("Faint Attack"),
+    moves.at("Nasty Plot"),
+    moves.at("Toxic"),
+    moves.at("Thunderbolt"),
+    moves.at("Sludge Bomb"),
+    moves.at("Will-O-Wisp"),
+    moves.at("Giga Impact"),
+    moves.at("Rock Slide"),
+    moves.at("X-Scissor"),
+    moves.at("Ice Beam"),
+    moves.at("Dark Pulse"),
+    moves.at("Dream Eater"),
+    moves.at("Dark Void")
 };
 
 vector<Move*> LatiosMP{
-    GigaImpact,
-    LusterPurge,
-    LightScreen,
-    Recover
+    moves.at("Giga Impact"),
+    moves.at("Luster Purge"),
+    moves.at("Light Screen"),
+    moves.at("Recover")
 };

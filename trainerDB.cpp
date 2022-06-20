@@ -110,35 +110,18 @@ void updateTrainers(){
 
     fill(player);
 
-    //Trainer->setPkmn(Pokemon,level,moveset);
-    //Lucas
-    Lucas->setPkmn(Chimchar,7,{Scratch, Leer});
-    Lucas->setPkmn(Garchomp,66,{DragonRush,Earthquake,BrickBreak,GigaImpact});
 
-    fill(Lucas);
-
-
-    //Kaitlin
-    Kaitlin->setPkmn(Starly,4,{Tackle,Growl});
-    Kaitlin->setPkmn(Bidoof,4,{Tackle,Growl});
-    Kaitlin->setPkmn(Budew,4,{Absorb,StunSpore});
-    Kaitlin->setPkmn(Abra,4,{Teleport});
 
     fill(Kaitlin);
 
     //Cynthia
-    Cynthia->setPkmn(Spiritomb,61,{DarkPulse,ShadowBall,Psychic,Embargo});
-    Cynthia->setPkmn(Roserade,60,{EnergyBall,SludgeBomb,ShadowBall,Extrasensory});
-    Cynthia->setPkmn(Gastrodon,60,{MuddyWater,Earthquake,StoneEdge,SludgeBomb});
-    Cynthia->setPkmn(Lucario,63,{AuraSphere,DragonPulse,Psychic,Earthquake});
-    Cynthia->setPkmn(Milotic,63,{Surf,IceBeam,MirrorCoat,AquaRing});
-    Cynthia->setPkmn(Garchomp,66,{DragonRush,Earthquake,BrickBreak,GigaImpact});
+    Cynthia->setPkmn(pokemones.at("Spiritomb"),61,{moves.at("Dark Pulse"),moves.at("Shadow Ball"),moves.at("Psychic"),moves.at("Embargo")});
+    Cynthia->setPkmn(pokemones.at("Roserade"),60,{moves.at("Energy Ball"),moves.at("Sludge Bomb"),moves.at("Shadow Ball"),moves.at("Extrasensory")});
+    Cynthia->setPkmn(pokemones.at("Gastrodon"),60,{moves.at("Muddy Water"),moves.at("Earthquake"),moves.at("Stone Edge"),moves.at("Sludge Bomb")});
+    Cynthia->setPkmn(pokemones.at("Lucario"),63,{moves.at("Aura Sphere"),moves.at("Dragon Pulse"),moves.at("Psychic"),moves.at("Earthquake")});
+    Cynthia->setPkmn(pokemones.at("Milotic"),63,{moves.at("Surf"),moves.at("Ice Beam"),moves.at("Mirror Coat"),moves.at("Aqua Ring")});
+    Cynthia->setPkmn(pokemones.at("Garchomp"),66,{moves.at("Dragon Rush"),moves.at("Earthquake"),moves.at("Brick Break"),moves.at("Giga Impact")});
 
     fill(Cynthia);
-
-    Tobias->setPkmn(Darkrai,100,{IceBeam,DarkPulse,DreamEater,DarkVoid});
-    Tobias->setPkmn(Latios,100,{GigaImpact, LusterPurge, LightScreen, Recover});
-
-    fill(Tobias);
 
 }
