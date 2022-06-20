@@ -10,13 +10,13 @@ class Pokemon{
 // ----------- STATS -----------
         int max_hp;
 
-        int HP, ATK, DEF, SPE;
+        int HP, ATK, DEF, SPA, SPD, SPE;
 
-        int calcATK, calcDEF, calcSPE;
+        int calcATK, calcDEF, calcSPA, calcSPD, calcSPE;
 
-        int cur_hp, cur_atk, cur_def, cur_spe;
+        int cur_hp, cur_atk, cur_def, cur_spa, cur_spd, cur_spe;
 
-        int atk_stat_change, def_stat_change, spe_stat_change;
+        int atk_stat_change, def_stat_change, spa_stat_change, spd_stat_change, spe_stat_change;
 
 // ----------- DATA -----------
         string ability;
@@ -30,7 +30,7 @@ class Pokemon{
         PkmnStatus Status;
 
     public:
-        Pokemon(string name, int id, int level, int HP, int ATK, int DEF, int SPE, string ability, PkmnTypes type1, 
+        Pokemon(string name, int id, int level, int HP, int ATK, int DEF, int SPA, int SPD, int SPE, string ability, PkmnTypes type1, 
         PkmnTypes type2, vector<Move*> moveset, vector<Move*> movepool, PkmnStatus Status
         );
 
@@ -59,6 +59,16 @@ class Pokemon{
         const int get_baseDEF() const;
         const int getDEF() const;
 
+// ----------- SPA -----------
+        const int getSPAchange() const;
+        const int get_baseSPA() const;
+        const int getSPA() const;
+
+// ----------- SPD -----------
+        const int getSPDchange() const;
+        const int get_baseSPD() const;
+        const int getSPD() const;
+
 // ----------- SPE -----------
         const int getSPEchange() const;
         const int get_baseSPE() const;
@@ -80,6 +90,12 @@ class Pokemon{
 
 // ----------- DEF -----------
         void setDEFChange(const int &change);
+
+// ----------- SPA -----------
+        void setSPAChange(const int &change);
+
+// ----------- SPD -----------
+        void setSPDChange(const int &change);
 
 // ----------- SPE -----------
         void setSPEChange(const int &change);

@@ -523,11 +523,11 @@ bool movementEffect(Pokemon *user, Pokemon *enemy, Move* move){
 
 void effectivenessMessage(double x){
     if(x == 0){
-        textBox("It doesn't affect.\n",true);
+        textBox("It doesn't affect.+"+to_string(x)+"\n",true);
     } else if(x < 1){
-        textBox("Its not very effective!\n",true);
+        textBox("Its not very effective! +"+to_string(x)+"\n",true);
     } else if(x > 1){
-        textBox("Its super effective!\n",true);
+        textBox("Its super effective!+"+to_string(x)+"\n",true);
     }
 }
 
@@ -538,7 +538,7 @@ bool STAB(Pokemon *user, Move* move){
     return false;
 }
 
-int calcEffectiveness(Pokemon *enemy, Move *move){
+double calcEffectiveness(Pokemon *enemy, Move *move){
     //Pkmn(pokemones.at("Spiritomb"),61,{moves.at("Dark Pulse"),moves.at("Shadow Ball"),moves.at("Psychic"),moves.at("Embargo")});
     PkmnTypes moveType = move->getMoveType();
     PkmnTypes pkmnType1 = enemy->getType1();
@@ -575,19 +575,28 @@ int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move){
     
     //Pokemon Dmg Formula
     if(move->getPower() != 0){
+        int atk_stat;
+        int def_stat;
+        if(move->getCategory() == Category::PHYSICAL)
+            atk_stat = userPkmn->getATK();
+        if(move->getCategory() == Category::SPECIAL)
+            atk_stat = userPkmn->getSPA();
 
-        int atk_stat = userPkmn->getATK();
-        if(userPkmn->getStatusString() == "BRN")
-            atk_stat /= 2;
+        if(move->getCategory() == Category::PHYSICAL)
+            def_stat = userPkmn->getDEF();
+        if(move->getCategory() == Category::SPECIAL)
+            def_stat = userPkmn->getSPD();
 
-        int effectiveness = calcEffectiveness(enemyPokemon, move);
+        double effectiveness = calcEffectiveness(enemyPokemon, move);
 
         double stab = 1;
-        if(STAB(userPkmn, move))
+        if(STAB(userPkmn, move)){
             stab = 1.5;
+            textBox("STAB\n",true);
+        }
 
         if(rand()%100+1 <= move->getAccurracy()){
-            return trunc(trunc(trunc(trunc(trunc(trunc(2*userPkmn->getLevel())/5)+2) * move->getPower() * userPkmn->getATK()/enemyPokemon->getDEF())/50)+2)*effectiveness * stab;
+            return trunc(trunc(trunc(trunc(trunc(trunc(2*userPkmn->getLevel())/5)+2) * move->getPower() * atk_stat/def_stat)/50)+2)*effectiveness * stab;
         } else {
             textBox(userPkmn->getName()+"'s Attack missed!\n",true);
             return 0;

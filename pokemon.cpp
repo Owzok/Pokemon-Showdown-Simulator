@@ -1,8 +1,8 @@
 #include "pokemon.h"
 
-Pokemon::Pokemon(string name, int id, int level, int HP, int ATK, int DEF, int SPE, string ability, PkmnTypes type1, 
+Pokemon::Pokemon(string name, int id, int level, int HP, int ATK, int DEF, int SPA, int SPD, int SPE, string ability, PkmnTypes type1, 
         PkmnTypes type2, vector<Move*> moveset, vector<Move*> movepool, PkmnStatus Status
-        ):name(name),id(id),level(level),ability(ability),type1(type1),type2(type2),HP(HP),ATK(ATK),DEF(DEF),
+        ):name(name),id(id),level(level),ability(ability),type1(type1),type2(type2),HP(HP),ATK(ATK),DEF(DEF),SPA(SPA),SPD(SPD),
         SPE(SPE),moveset(moveset),movepool(movepool),Status(Status)
         {
             startStats();
@@ -46,6 +46,20 @@ const int Pokemon::get_baseDEF() const{ return DEF; }
 
 const int Pokemon::getDEFchange() const{ return def_stat_change; }
 
+// ----------- SPA -----------
+const int Pokemon::getSPA() const{ return cur_spa; }
+
+const int Pokemon::get_baseSPA() const{ return SPA; }
+
+const int Pokemon::getSPAchange() const{ return spa_stat_change; }
+
+// ----------- SPD -----------
+const int Pokemon::getSPD() const{ return cur_spd; }
+
+const int Pokemon::get_baseSPD() const{ return SPD; }
+
+const int Pokemon::getSPDchange() const{ return spd_stat_change; }
+
 // ----------- SPE -----------
 const int Pokemon::getSPE() const{ return cur_spe; }
 
@@ -72,6 +86,12 @@ void Pokemon::setATKChange(const int &change){ atk_stat_change = change; }
 // ----------- DEF -----------
 void Pokemon::setDEFChange(const int &change){ def_stat_change = change; }
 
+// ----------- SPA -----------
+void Pokemon::setSPAChange(const int &change){ spa_stat_change = change; }
+
+// ----------- SPD -----------
+void Pokemon::setSPDChange(const int &change){ spd_stat_change = change; }
+
 // ----------- SPE -----------
 void Pokemon::setSPEChange(const int &change){ spe_stat_change = change; }
 
@@ -82,11 +102,15 @@ void Pokemon::setMoveset(vector<Move*> moveset){ Pokemon::moveset = moveset; }
 void Pokemon::startStats(){
     calcATK = (0.01*(2*ATK+36)*level) + 5;
     calcDEF = (0.01*(2*DEF+36)*level) + 5;
+    calcSPA = (0.01*(2*SPA+36)*level) + 5;
+    calcSPD = (0.01*(2*SPD+36)*level) + 5;
     calcSPE = (0.01*(2*SPE+36)*level) + 5;
     max_hp = (0.01*(2*HP+36)*level) + level + 10;
 
     cur_atk = calcATK;
     cur_def = calcDEF;
+    cur_spa = calcSPA;
+    cur_spd = calcSPD;
     cur_spe = calcSPE;
     cur_hp = max_hp;
 }
@@ -259,9 +283,13 @@ string Pokemon::printData(){
     "\tHp: "+to_string(cur_hp)+"/"+to_string(max_hp)+"\n"
     "\tAttack: "+to_string(cur_atk)+"\n"
     "\tDefense: "+to_string(cur_def)+"\n"
+    "\tSp. Attack: "+to_string(cur_spa)+"\n"
+    "\tSp. Defense: "+to_string(cur_spd)+"\n"
     "\tSpeed: "+to_string(cur_spe)+"\n"
     "\tAtk Modifier: "+to_string(atk_stat_change)+"\n"
     "\tDefense Modifier: "+to_string(def_stat_change)+"\n"
+    "\tSp. Attack Modifier: "+to_string(spa_stat_change)+"\n"
+    "\tSp. Defense Modifier: "+to_string(spd_stat_change)+"\n"
     "\tSpeed Modifier: "+to_string(spe_stat_change)+"\n";
     return data;
 }
@@ -271,6 +299,8 @@ void Pokemon::mostrar(){
     cout << "HP: " << get_baseHP() << "\t";
     cout << "ATK: " << get_baseATK() << "\t";
     cout << "DEF: " << get_baseDEF() << "\t";
+    cout << "SPA: " << get_baseSPA() << "\t";
+    cout << "SPD: " << get_baseSPD() << "\t";
     cout << "SPE: " << get_baseSPE() << endl;
     cout << "Types: ";
     cout << typeString(getType1());
