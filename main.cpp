@@ -222,6 +222,29 @@ bool checkStatus(Pokemon *userPkmn){
     return true;
 }
 
+string weatherString(Weather w){
+    if(w == Weather::SUN){
+        return "Sun";
+    }
+    if(w == Weather::RAIN){
+        return "Rain";
+    } 
+    if(w == Weather::SAND){
+        return "Sand";
+    }
+    if(w == Weather::HAIL){
+        return "Hail";
+    }
+    if(w == Weather::CLEAR){
+        return "Clear";
+    }
+    return "";
+}
+
+string print_field_data(int turn, Weather weather, int weatherTurn, int u_lS, int e_lS, int u_R, int e_R){
+    return "\tTurn: "+to_string(turn)+"\n\tWeather: "+weatherString(weather)+"\n\tWeather Remaining Turns: "+to_string(weatherTurn)+"\n\tUser Light Screen turns: "+to_string(u_lS)+"\n\tEnemy Light Screen turns: "+to_string(e_lS)+"\n\tUser Reflect turns: "+to_string(u_R)+"\n\tEnemy Reflect turns: "+to_string(e_R)+"\n";
+}
+
 //Turns move description into a vector of data
 vector<string> getSideEffectsFromMove(Move *move){
     string txt = move->getSideEffect();
@@ -345,6 +368,24 @@ void movementStatusEffect(Pokemon *user, Pokemon *enemy, Move* move, string stat
                     }
             break;
         }
+    }
+}
+
+// Checks if the move sets up a climate
+void movementClimateEffect(string climate, Weather &weather){
+    if(climate == "SUN"){
+        textBox("The sunlight turned harsh!\n",true);
+        weather = Weather::SUN;
+    }
+    if(climate == "RAIN"){
+        textBox("It started to rain!\n",true);
+        weather = Weather::RAIN;
+    }
+    if(climate == "HAIL"){
+        weather = Weather::HAIL;
+    }
+    if(climate == "SAND"){
+        weather = Weather::SAND;
     }
 }
 
@@ -476,12 +517,14 @@ void movementRecover(Pokemon *user, double amount){
 }
 
 // Checks the effect of the given movement
-bool movementEffect(Pokemon *user, Pokemon *enemy, Move* move){
+bool movementEffect(Pokemon *user, Pokemon *enemy, Move* move, Weather &weather){
     vector<string> campos = getSideEffectsFromMove(move);
+
+    string effect = campos.at(0);
 
     // CHECKS IF THE MOVEMENT EFFECT IS A STATUS ONE
     // movementStatusEffect(user, enemy, move, status, chance);
-    if (campos.at(0) == "status"){
+    if (effect == "status"){
         int chance = stoi(campos.at(1));
         string status = campos.at(2);
 
@@ -492,7 +535,7 @@ bool movementEffect(Pokemon *user, Pokemon *enemy, Move* move){
     // stat | 10 | -enemy | D | 1
     //   0     1      2     3   4
     // movementStatEffect(user, enemy, chance, who, stat, amount);
-    if (campos.at(0) == "stat"){
+    if (effect == "stat"){
         int chance = stoi(campos.at(1));
         string who = campos.at(2);
         string stat = campos.at(3);
@@ -501,9 +544,13 @@ bool movementEffect(Pokemon *user, Pokemon *enemy, Move* move){
         movementStatEffect(user, enemy, chance, who, stat, amount);
     }
 
+    if (effect == "weather"){
+        movementClimateEffect(campos.at(1), weather);
+    }
+
     // CHECKS IF THE MOVEMENT EFFECT IS A RECOVERY ONE
     // movementRecover(user, percentage);
-    if (campos.at(0) == "recover"){
+    if (effect == "recover"){
         movementRecover(user, stoi(campos.at(1)));
     }
 
@@ -557,7 +604,7 @@ double calcEffectiveness(PkmnTypes pkmnType1, PkmnTypes pkmnType2, PkmnTypes mov
     }
 }
 
-int dmgFormula(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move, bool test){
+int dmgFormula(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move, Weather weather, bool test){
     if(move->getPower() != 0){
         int atk_stat,def_stat;
         
@@ -580,12 +627,22 @@ int dmgFormula(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move, bool test){
         if(effectiveness == 0)
             return 0;
 
+        double weather_bonus = 1;
+        if(weather == Weather::SUN){
+            if(move->getMoveType() == PkmnTypes::FIRE){
+                weather_bonus = 1.5;
+            }
+            if(move->getMoveType() == PkmnTypes::WATER){
+                weather_bonus = 0.5;
+            }
+        }
+
         double stab = 1;
         if(STAB(userPkmn, move)){ 
             stab = 1.5; 
         }
 
-        return trunc(trunc(trunc(trunc(trunc(trunc(2*userPkmn->getLevel())/5)+2) * move->getPower() * atk_stat/def_stat)/50)+2)*effectiveness * stab;
+        return trunc(trunc(trunc(trunc(trunc(trunc(2*userPkmn->getLevel())/5)+2) * move->getPower() * atk_stat/def_stat)/50)+2)*effectiveness * stab * weather_bonus;
     }
     return 0;
 }
@@ -665,7 +722,7 @@ Pokemon* IAChange(Pokemon *user, Pokemon *enemy, vector<Pokemon*> team){
 }
 
 // Use most powerful move or maybe a status one
-Move* enemyAttack(Pokemon *user, Pokemon *enemy){
+Move* enemyAttack(Pokemon *user, Pokemon *enemy, Weather weather){
 
     //Get moveset of the enemy and get a random move between them
     vector<Move*> moves = enemy->getMoveset();
@@ -691,7 +748,7 @@ Move* enemyAttack(Pokemon *user, Pokemon *enemy){
     // add move dmg to values vector to find the strongest one
     for(const auto &m : moves){
         //test damage from enemy to user
-        values.push_back(dmgFormula(enemy, user, m, true));
+        values.push_back(dmgFormula(enemy, user, m, weather, true));
     }
     // find the index of the strongest move
     int max = *max_element(values.begin(), values.end());
@@ -739,20 +796,20 @@ int IAdecision(Pokemon *user, Pokemon *enemy, vector<Pokemon*> team){
 }
 
 // Damage formula calculator
-int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move){
+int calculateDamage(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move, Weather &weather){
     move->lessPP();
     // if check status returns False, program stops and returns status error
     if(!checkStatus(userPkmn))
         return -1;
 
     // checks if move has any status effect, in case it has, it apllies it
-    if(!movementEffect(userPkmn, enemyPokemon, move)){
+    if(!movementEffect(userPkmn, enemyPokemon, move, weather)){
         return 0;
     }
 
     // if hits, calc dmg and return it
     if(rand()%100+1 <= move->getAccurracy()){
-        return dmgFormula(userPkmn, enemyPokemon, move, false);
+        return dmgFormula(userPkmn, enemyPokemon, move, weather, false);
     } else {
         textBox(userPkmn->getName()+"'s Attack missed!\n",true);
         return 0;
@@ -764,19 +821,21 @@ ____________________________________________________________
 
         [1] Chimchar     lvl.7
         [2] Budew        lvl.4 
-        [3] < Go Back >
+        [3] Field
+        [4] < Go Back >
 ____________________________________________________________*/
-void displayData(Pokemon* user, Pokemon* enemy){
+void displayData(Pokemon* user, Pokemon* enemy, int turn, Weather weather, int weatherTurn, int u_lS, int e_lS, int u_R, int e_R){
     int decision;
     cout<<"\n ____________________________________________________________ \n\n";
     cout<<"\t\t[1] " << user->getName() << "\tlvl." << user->getLevel() << endl;
     cout<<"\t\t[2] " << enemy->getName() << "\tlvl." << enemy->getLevel() << endl;
-    cout<<"\t\t[3] < Go Back >" << endl;
+    cout<<"\t\t[3] Field\n";
+    cout<<"\t\t[4] < Go Back >" << endl;
     cout<<" ____________________________________________________________ "<<endl;
     do{
         cout << "\nWho do you want to look? : "; 
         cin >> decision;
-    } while(decision < 1 || decision > 3);
+    } while(decision < 1 || decision > 4);
 
     switch(decision){
         case 1:
@@ -785,6 +844,9 @@ void displayData(Pokemon* user, Pokemon* enemy){
 
         case 2:
             textBox(enemy->printData(),true);
+        break;
+        case 3:
+            textBox(print_field_data(turn, weather, weatherTurn, u_lS,  e_lS, u_R, e_R),true);
         break;
     }
 }
@@ -912,10 +974,21 @@ void Battle(Trainer*user, Trainer*enemy){
     textBox(enemy->classtring(enemy->getTC())+" "+enemy->getName()+" would like to battle! \n\t"+partyballs+emptyballs+"\n", true);
 
     bool inBattle = true;
+
     Pokemon *userPkmn = user->getLeadPkmn();
     Pokemon *enemyPkmn = enemy->getLeadPkmn();
     Move *userMove;
     Move *enemyMove;
+    int turn = 0;
+    Weather weather = CLEAR;
+    int weatherTurn;
+
+    int user_LightScreen = 0;
+    int user_Reflect = 0;
+
+    int enemy_LightScreen = 0;
+    int enemy_Reflect = 0;
+
     int menuDecision = 0;
     int speedTurn;
     int calc_dmg = 0;
@@ -962,7 +1035,7 @@ void Battle(Trainer*user, Trainer*enemy){
                         {
                             case 1: // ========================================= starts USER =========================================
                                 textBox((userPkmn->getName()+" used "+userMove->getName()+"\n"),true);
-                                calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove);
+                                calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove, weather);
 
                                 // -1 = abort, else calculate damage
                                 if(calc_dmg != -1){
@@ -981,7 +1054,7 @@ void Battle(Trainer*user, Trainer*enemy){
                             case 2: //  ========================================= ENEMY goes first =========================================
                                 //=-=-=-=-=-=-=-=-= User Turn =-=-=-=-=-=-=-=-=
                                 textBox((userPkmn->getName()+" used "+userMove->getName()+"\n"),true);
-                                calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove);
+                                calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove, weather);
 
                                 // -1 = abort, else calculate damage
                                 if(calc_dmg != -1){
@@ -1002,11 +1075,11 @@ void Battle(Trainer*user, Trainer*enemy){
                         break;
                     case 2:
                         // atk
-                        enemyMove = enemyAttack(userPkmn, enemyPkmn);
+                        enemyMove = enemyAttack(userPkmn, enemyPkmn, weather);
                         switch(speedTurn){
                         case 1: // ========================================= starts USER =========================================
                             textBox((userPkmn->getName()+" used "+userMove->getName()+"\n"),true);
-                            calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove);
+                            calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove, weather);
 
                             // -1 = abort, else calculate damage
                             if(calc_dmg != -1){
@@ -1024,7 +1097,7 @@ void Battle(Trainer*user, Trainer*enemy){
                             
                             // =-=-=-=-=-=-= Foe Turn =-=-=-=-=-=-=-=-=
                             textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",true);
-                            calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove);
+                            calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove, weather);
 
                             // -1 = abort, else calculate damage
                             if(calc_dmg != -1){
@@ -1042,7 +1115,7 @@ void Battle(Trainer*user, Trainer*enemy){
                             break;
                         case 2: //  ========================================= ENEMY goes first =========================================
                             textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",true);
-                            calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove);
+                            calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove, weather);
 
                             // -1 = abort, else calculate damage
                             if(calc_dmg != -1){
@@ -1059,7 +1132,7 @@ void Battle(Trainer*user, Trainer*enemy){
                             
                             //=-=-=-=-=-=-=-=-= User Turn =-=-=-=-=-=-=-=-=
                             textBox((userPkmn->getName()+" used "+userMove->getName()+"\n"),true);
-                            calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove);
+                            calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove, weather);
 
                             // -1 = abort, else calculate damage
                             if(calc_dmg != -1){
@@ -1094,7 +1167,7 @@ void Battle(Trainer*user, Trainer*enemy){
 
                         break;
                     case 2:
-                        enemyMove = enemyAttack(userPkmn, enemyPkmn);
+                        enemyMove = enemyAttack(userPkmn, enemyPkmn, weather);
                         changePkmnUI(user);
                         entryPkmn = changePokemon(user);
 
@@ -1103,7 +1176,7 @@ void Battle(Trainer*user, Trainer*enemy){
 
                         userPkmn = entryPkmn;
                         textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",true);
-                        calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove);
+                        calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove, weather);
                         if(calc_dmg != -1){
                             userPkmn->setCurrentHP(userPkmn->getHP() - calc_dmg);
                             if(checkHps(userPkmn, enemyPkmn) == false){
@@ -1119,10 +1192,29 @@ void Battle(Trainer*user, Trainer*enemy){
                 }
             break;
             case 3:
-                displayData(userPkmn, enemyPkmn);
+                displayData(userPkmn, enemyPkmn, turn, weather, weatherTurn, user_LightScreen, enemy_LightScreen, user_Reflect, enemy_Reflect);
             break;
         }
     }
+    turn++;
+    if(weatherTurn == 0){
+        weather = Weather::CLEAR;
+    }
+
+    if(weatherTurn != 0)
+        weatherTurn--;
+
+    if(user_LightScreen != 0)
+        user_LightScreen--;
+
+    if(enemy_LightScreen != 0)
+        enemy_LightScreen--;
+
+    if(user_Reflect != 0)
+        user_Reflect--;
+    
+    if(enemy_Reflect !=0)
+        enemy_Reflect--;
 }
 
 int main(){
