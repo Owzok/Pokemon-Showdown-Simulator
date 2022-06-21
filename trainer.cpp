@@ -54,6 +54,17 @@ void Trainer::setParty(const vector<Pokemon*> &par){
     party = par;
 }
 
+int Trainer::getPartyPokemonIndex(Pokemon* pkmn){
+    int temp = 0;
+    for(const auto &p : party){
+        if(p->getName() == pkmn->getName())
+            return temp;
+
+        temp++;
+    }
+    return -1;
+}
+
 
 Pokemon* Trainer::getLeadPkmn(){
     Pokemon* pk = *party.begin();

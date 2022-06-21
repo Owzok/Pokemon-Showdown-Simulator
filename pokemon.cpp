@@ -1,9 +1,9 @@
 #include "pokemon.h"
 
 Pokemon::Pokemon(string name, int id, int level, int HP, int ATK, int DEF, int SPA, int SPD, int SPE, string ability, PkmnTypes type1, 
-        PkmnTypes type2, vector<Move*> moveset, vector<Move*> movepool, PkmnStatus Status
+        PkmnTypes type2, vector<Move*> moveset, vector<Move*> movepool
         ):name(name),id(id),level(level),ability(ability),type1(type1),type2(type2),HP(HP),ATK(ATK),DEF(DEF),SPA(SPA),SPD(SPD),
-        SPE(SPE),moveset(moveset),movepool(movepool),Status(Status)
+        SPE(SPE),moveset(moveset),movepool(movepool)
         {
             startStats();
 }
@@ -120,8 +120,8 @@ int EV(int &left){
 // =============== METHODS ===============
 void Pokemon::startStats(){
     int evs_left = 512;
-    atk_ev = EV(evs_left); def_ev = EV(evs_left); spa_ev = EV(evs_left); spd_ev = EV(evs_left); spe_ev = EV(evs_left);
-    atk_iv = IV(); def_iv = IV(); spa_iv = IV(); spd_iv = IV(); spe_iv = IV();
+    hp_ev = EV(evs_left); atk_ev = EV(evs_left); def_ev = EV(evs_left); spa_ev = EV(evs_left); spd_ev = EV(evs_left); spe_ev = EV(evs_left);
+    hp_iv = IV(); atk_iv = IV(); def_iv = IV(); spa_iv = IV(); spd_iv = IV(); spe_iv = IV();
     calcATK = (0.01*(2*ATK+atk_iv+(atk_ev/4))*level) + 5;
     calcDEF = (0.01*(2*DEF+def_iv+(def_ev/4))*level) + 5;
     calcSPA = (0.01*(2*SPA+spa_iv+(spa_ev/4))*level) + 5;
@@ -308,8 +308,8 @@ string Pokemon::printData(){
     "\tSp. Attack: "+to_string(cur_spa)+"\n"
     "\tSp. Defense: "+to_string(cur_spd)+"\n"
     "\tSpeed: "+to_string(cur_spe)+"\n"
-    "\tEVS: "+to_string(atk_ev)+","+to_string(def_ev)+","+to_string(spa_ev)+","+to_string(spd_ev)+","+to_string(spe_ev)+",\n"
-    "\tIVS: "+to_string(atk_iv)+","+to_string(def_iv)+","+to_string(spa_iv)+","+to_string(spd_iv)+","+to_string(spe_iv)+",\n"
+    "\tEVS: "+to_string(hp_ev)+","+to_string(atk_ev)+","+to_string(def_ev)+","+to_string(spa_ev)+","+to_string(spd_ev)+","+to_string(spe_ev)+",\n"
+    "\tIVS: "+to_string(hp_iv)+","+to_string(atk_iv)+","+to_string(def_iv)+","+to_string(spa_iv)+","+to_string(spd_iv)+","+to_string(spe_iv)+",\n"
     "\tAtk Modifier: "+to_string(atk_stat_change)+"\n"
     "\tDefense Modifier: "+to_string(def_stat_change)+"\n"
     "\tSp. Attack Modifier: "+to_string(spa_stat_change)+"\n"
@@ -378,8 +378,8 @@ string Pokemon::typeString(PkmnTypes tipo){
         case PkmnTypes::DRAGON:
             return "DRAGON";
         break;
-        case PkmnTypes::ELECRTRIC:
-            return "ELECRTRIC";
+        case PkmnTypes::ELECTRIC:
+            return "ELECTRIC";
         break;
         case PkmnTypes::FAIRY:
             return "FAIRY";

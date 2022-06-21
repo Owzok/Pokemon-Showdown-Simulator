@@ -16,7 +16,7 @@ class Pokemon{
 
         int cur_hp, cur_atk, cur_def, cur_spa, cur_spd, cur_spe;
 
-        int atk_stat_change, def_stat_change, spa_stat_change, spd_stat_change, spe_stat_change;
+        int atk_stat_change = 0, def_stat_change = 0, spa_stat_change = 0, spd_stat_change = 0, spe_stat_change = 0;
 
         int hp_ev, atk_ev, def_ev, spa_ev, spd_ev, spe_ev;
 
@@ -31,11 +31,11 @@ class Pokemon{
         vector<Move*> moveset;
         vector<Move*> movepool;
 
-        PkmnStatus Status;
+        PkmnStatus Status = HEALTHY;
 
     public:
         Pokemon(string name, int id, int level, int HP, int ATK, int DEF, int SPA, int SPD, int SPE, string ability, PkmnTypes type1, 
-        PkmnTypes type2, vector<Move*> moveset, vector<Move*> movepool, PkmnStatus Status
+        PkmnTypes type2, vector<Move*> moveset, vector<Move*> movepool
         );
 
 // =============== GETTERS ===============

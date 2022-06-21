@@ -43,8 +43,8 @@ string Move::moveTypeString(PkmnTypes tipo){
         case PkmnTypes::DRAGON:
             return "DRAGON";
         break;
-        case PkmnTypes::ELECRTRIC:
-            return "ELECRTRIC";
+        case PkmnTypes::ELECTRIC:
+            return "ELECTRIC";
         break;
         case PkmnTypes::FAIRY:
             return "FAIRY";

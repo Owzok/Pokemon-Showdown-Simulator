@@ -170,3 +170,38 @@ vector<Move*> LatiosMP{
     moves.at("Light Screen"),
     moves.at("Recover")
 };
+
+vector<Move*> HoundoomMP{
+    moves.at("Flamethrower"),
+    moves.at("Sludge Bomb"),
+    moves.at("Dark Pulse"),
+    moves.at("Sunny Day")
+};
+
+vector<Move*> FlareonMP{
+    moves.at("Overheat"),
+    moves.at("Giga Impact"),
+    moves.at("Quick Attack"),
+    moves.at("Will-O-Wisp")
+};
+
+vector<Move*> RapidashMP{
+    moves.at("Flare Blitz"),
+    moves.at("Solar Beam"),
+    moves.at("Bounce"),
+    moves.at("Sunny Day")
+};
+
+vector<Move*> InfernapeMP{
+    moves.at("Flare Blitz"),
+    moves.at("Thunder Punch"),
+    moves.at("Mach Punch"),
+    moves.at("Earthquake")
+};
+
+vector<Move*> MagmortarMP{
+    moves.at("Flamethrower"),
+    moves.at("Thunderbolt"),
+    moves.at("Solar Beam"),
+    moves.at("Hyper Beam")
+};

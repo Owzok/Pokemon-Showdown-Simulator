@@ -23,6 +23,8 @@ class Trainer{
 
         string classtring(TrainerClass clase);
         
+        int getPartyPokemonIndex(Pokemon* pkmn);
+
         void mostrarEquipo();
         
         ~Trainer();
