@@ -102,7 +102,7 @@ int actionsMenu(Pokemon* userPokemon){
     cout<<"\tWhat will "<<userPokemon->getName()<<" do?\n\t[1] Fight \n\t"<<"[2] Change \n\t[3] Stats\n";
     cout<<" ____________________________________________________________ "<<endl;
 
-    do{ cout<<"Opcion: ";cin>>decision; } while(decision != 1 || decision != 3 || decision != 2);
+    do{ cout<<"Opcion: ";cin>>decision; } while(decision < 1 || decision > 3);
 
     return decision;
 }
