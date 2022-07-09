@@ -221,47 +221,126 @@ void Pokemon::updateStats()
             break;
         }
     }
-    if(spe_stat_change != 0){
-        switch(spe_stat_change){
+    if(spa_stat_change != 0){
+        switch(spa_stat_change){
             case -6:
-                cur_spe = calcDEF * 0.25;
+                cur_spa = calcSPA * 0.25;
             break;
             case -5:
-                cur_spe = calcDEF * 0.285;
+                cur_spa = calcSPA * 0.285;
             break;
             case -4:
-                cur_spe = calcDEF * 0.333;
+                cur_spa = calcSPA * 0.333;
             break;
             case -3:
-                cur_spe = calcDEF * 0.4;
+                cur_spa = calcSPA * 0.4;
             break;
             case -2:
-                cur_spe = calcDEF * 0.5;
+                cur_spa = calcSPA * 0.5;
             break;
             case -1:
-                cur_spe = calcDEF * 0.666;
+                cur_spa = calcSPA * 0.666;
             break;
             case 1:
-                cur_spe = calcDEF * 1.5;
+                cur_spa = calcSPA * 1.5;
             break;
             case 2:
-                cur_spe = calcDEF * 2;
+                cur_spa = calcSPA * 2;
             break;
             case 3:
-                cur_spe = calcDEF * 2.5;
+                cur_spa = calcSPA * 2.5;
             break;
             case 4:
-                cur_spe = calcDEF * 3;
+                cur_spa = calcSPA * 3;
             break;
             case 5:
-                cur_spe = calcDEF * 3.5;
+                cur_spa = calcSPA * 3.5;
             break;
             case 6:
-                cur_spe = calcDEF * 4;
+                cur_spa = calcSPA * 4;
             break;
         }
     }
-    
+    if(spd_stat_change != 0){
+        switch(spd_stat_change){
+            case -6:
+                cur_spd = calcSPD * 0.25;
+            break;
+            case -5:
+                cur_spd = calcSPD * 0.285;
+            break;
+            case -4:
+                cur_spd = calcSPD * 0.333;
+            break;
+            case -3:
+                cur_spd = calcSPD * 0.4;
+            break;
+            case -2:
+                cur_spd = calcSPD * 0.5;
+            break;
+            case -1:
+                cur_spd = calcSPD * 0.666;
+            break;
+            case 1:
+                cur_spd = calcSPD * 1.5;
+            break;
+            case 2:
+                cur_spd = calcSPD * 2;
+            break;
+            case 3:
+                cur_spd = calcSPD * 2.5;
+            break;
+            case 4:
+                cur_spd = calcSPD * 3;
+            break;
+            case 5:
+                cur_spd = calcSPD * 3.5;
+            break;
+            case 6:
+                cur_spd = calcSPD * 4;
+            break;
+        }
+    }
+    if(spe_stat_change != 0){
+        switch(spe_stat_change){
+            case -6:
+                cur_spe = calcSPE * 0.25;
+            break;
+            case -5:
+                cur_spe = calcSPE * 0.285;
+            break;
+            case -4:
+                cur_spe = calcSPE * 0.333;
+            break;
+            case -3:
+                cur_spe = calcSPE * 0.4;
+            break;
+            case -2:
+                cur_spe = calcSPE * 0.5;
+            break;
+            case -1:
+                cur_spe = calcSPE * 0.666;
+            break;
+            case 1:
+                cur_spe = calcSPE * 1.5;
+            break;
+            case 2:
+                cur_spe = calcSPE * 2;
+            break;
+            case 3:
+                cur_spe = calcSPE * 2.5;
+            break;
+            case 4:
+                cur_spe = calcSPE * 3;
+            break;
+            case 5:
+                cur_spe = calcSPE * 3.5;
+            break;
+            case 6:
+                cur_spe = calcSPE * 4;
+            break;
+        }
+    }
     switch (Status){
     case PkmnStatus::PARALYZED:
         cur_spe = calcSPE / 2;
@@ -283,6 +362,14 @@ void Pokemon::boost(int stat, int amount){
         break;
 
         case 3:
+            spa_stat_change += amount;
+        break;
+
+        case 4:
+            spd_stat_change += amount;
+        break;
+
+        case 5:
             spe_stat_change += amount;
         break;
     }

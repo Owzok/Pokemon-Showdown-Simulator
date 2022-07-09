@@ -28,6 +28,7 @@ void textBox(string text, bool clear){
 | Chimchar      Lv7
 | PAR HP:21/22
 |______________________*/
+
 void ShowPokemonMenuHUD(Trainer *user, Trainer *foe, Pokemon *userPk, Pokemon *enemyPk){
     clearScreen();
     string userStatus = userPk->getStatusString();
@@ -262,7 +263,6 @@ vector<string> getSideEffectsFromMove(Move *move){
     return campos;
 }
 
-
 /* Move("Stun Spore",30,STATUS,0,75,"s|100|2",GRASS);
 // < s , 100 , 2 >
 // [0] = s or ""    =>  Status move effect or not
@@ -419,8 +419,32 @@ void movementStatEffect(Pokemon *user, Pokemon *enemy, int chance, string who, s
                     break;
                 }
             }
-            if(stat == "SPE"){
+            if(stat == "SPA"){
                 user->boost(3,amount);
+                switch (amount)
+                {
+                case 1:
+                    textBox(enemy->getName()+" Sp. Attack rose!\n", true);
+                    break;
+                case 2:
+                    textBox(enemy->getName()+" Sp. Attack sharply rose!\n", true);
+                    break;
+                }
+            }
+            if(stat == "SPD"){
+                user->boost(4,amount);
+                switch (amount)
+                {
+                case 1:
+                    textBox(enemy->getName()+" Sp. Defense rose!\n", true);
+                    break;
+                case 2:
+                    textBox(enemy->getName()+" Sp. Defense sharply rose!\n", true);
+                    break;
+                }
+            }
+            if(stat == "SPE"){
+                user->boost(5,amount);
                 switch (amount)
                 {
                 case 1:
@@ -439,10 +463,19 @@ void movementStatEffect(Pokemon *user, Pokemon *enemy, int chance, string who, s
                 user->setDEFChange(6);
             if(user->getDEFchange() < -6)
                 user->setDEFChange(-6);
+            if(user->getSPAchange() > 6)
+                user->setSPAChange(6);
+            if(user->getSPAchange() < -6)
+                user->setSPAChange(-6);
+            if(user->getSPDchange() > 6)
+                user->setSPDChange(6);
+            if(user->getSPDchange() < -6)
+                user->setSPDChange(-6);
             if(user->getSPEchange() > 6)
                 user->setSPEChange(6);
             if(user->getSPEchange() < -6)
                 user->setSPEChange(-6);
+
         }
         if(who == "-enemy")
         {
@@ -476,6 +509,36 @@ void movementStatEffect(Pokemon *user, Pokemon *enemy, int chance, string who, s
                     break;
                 }
             }
+            if(stat == "SPA")
+            {
+                enemy->boost(3,-1*amount);
+                switch (amount){
+                case 1:
+                    textBox(enemy->getName()+" Sp. Attack fell!\n", true);
+                    break;
+                case 2:
+                    textBox(enemy->getName()+" Sp. Attack harshly fell!\n", true);
+                    break;
+                case 3:
+                    textBox(enemy->getName()+" Sp. Attack severely fell!\n", true);
+                    break;
+                }
+            }
+            if(stat == "SPD")
+            {
+                enemy->boost(3,-1*amount);
+                switch (amount){
+                case 1:
+                    textBox(enemy->getName()+" Sp. Defense fell!\n", true);
+                    break;
+                case 2:
+                    textBox(enemy->getName()+" Sp. Defense harshly fell!\n", true);
+                    break;
+                case 3:
+                    textBox(enemy->getName()+" Sp. Defense severely fell!\n", true);
+                    break;
+                }
+            }
             if(stat == "SPE")
             {
                 enemy->boost(3,-1*amount);
@@ -499,6 +562,14 @@ void movementStatEffect(Pokemon *user, Pokemon *enemy, int chance, string who, s
                 enemy->setDEFChange(6);
             if(enemy->getDEFchange() < -6)
                 enemy->setDEFChange(-6);
+            if(enemy->getSPAchange() > 6)
+                enemy->setSPAChange(6);
+            if(enemy->getSPAchange() < -6)
+                enemy->setSPAChange(-6);
+            if(enemy->getSPDchange() > 6)
+                enemy->setSPDChange(6);
+            if(enemy->getSPDchange() < -6)
+                enemy->setSPDChange(-6);
             if(enemy->getSPEchange() > 6)
                 enemy->setSPEChange(6);
             if(enemy->getSPEchange() < -6)
@@ -563,8 +634,6 @@ bool movementEffect(Pokemon *user, Pokemon *enemy, Move* move, Weather &weather)
             return false;
         }
     }
-    
-    
     return true;
 }
 
@@ -574,10 +643,11 @@ void effectivenessMessage(double x){
     } else if(x < 1){
         textBox("Its not very effective! +"+to_string(x)+"\n",true);
     } else if(x > 1){
-        textBox("Its super effective!+"+to_string(x)+"\n",true);
+        textBox("Its super effective!\n",true);
     }
 }
 
+// Same Attack Type Bonus is a x1.5 multiplier to the pokemon dmg if the move is the same type as the user
 bool STAB(Pokemon *user, Move* move){
     if(move->getMoveType() == user->getType1() || move->getMoveType() == user->getType2()){
         return true;
@@ -585,8 +655,8 @@ bool STAB(Pokemon *user, Move* move){
     return false;
 }
 
+// Calculate effectiveness between types, x0.25, x0.5, x1, x2, x4
 double calcEffectiveness(PkmnTypes pkmnType1, PkmnTypes pkmnType2, PkmnTypes moveType, bool test){
-
     map<PkmnTypes, double> effectiveMap = Effectiveness.at(moveType);
     double effectiveness1 = effectiveMap.at(pkmnType1);
 
@@ -604,6 +674,7 @@ double calcEffectiveness(PkmnTypes pkmnType1, PkmnTypes pkmnType2, PkmnTypes mov
     }
 }
 
+// Pokemon damage formula returns final done damage 
 int dmgFormula(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move, Weather weather, bool test){
     if(move->getPower() != 0){
         int atk_stat,def_stat;
@@ -647,7 +718,7 @@ int dmgFormula(Pokemon *userPkmn, Pokemon *enemyPokemon, Move* move, Weather wea
     return 0;
 }
 
-// returns the pokemon to change
+// Returns the pokemon to change
 Pokemon* IAChangeOption(vector<Pokemon*> team, Pokemon* user, Pokemon* enemy){
     vector<Pokemon*> options {};
 
@@ -824,6 +895,7 @@ ____________________________________________________________
         [3] Field
         [4] < Go Back >
 ____________________________________________________________*/
+
 void displayData(Pokemon* user, Pokemon* enemy, int turn, Weather weather, int weatherTurn, int u_lS, int e_lS, int u_R, int e_R){
     int decision;
     cout<<"\n ____________________________________________________________ \n\n";
@@ -867,7 +939,7 @@ bool checkHps(Pokemon* pkmn1, Pokemon* pkmn2){
     return true;
 }
 
-//lose(defender, attacker)
+// lose(defender, attacker)
 bool lose(Trainer* user, Trainer* enemy, bool is_player){
     Pokemon* enemyPkmn = enemy->getLeadPkmn();
     Pokemon* userPkmn = user->getLeadPkmn();
@@ -876,8 +948,6 @@ bool lose(Trainer* user, Trainer* enemy, bool is_player){
         if(is_player){
             //Defeated Trainer
             textBox("Player defeated "+enemy->classtring(enemy->getTC())+" "+enemy->getName()+"!\n ",true);
-            //Got x money for winning
-            textBox(user->classtring(user->getTC())+" "+user->getName()+" got $864 for winning!\n",true);
         }else{
             textBox("You lost\n",true);
         }
@@ -897,7 +967,7 @@ Pokemon* sendNextPokemon(Trainer *trainer){
     return pkmn;
 }
 
-/* changePokemon(trainer, hp) : Displays movements and its stats.
+/* Displays movements and its stats.
  ____________________________________________________________
 
         [1] Chimchar    lvl.7   Hp: 25/25
@@ -981,7 +1051,7 @@ void Battle(Trainer*user, Trainer*enemy){
     Move *enemyMove;
     int turn = 0;
     Weather weather = CLEAR;
-    int weatherTurn;
+    int weatherTurn = 0;
 
     int user_LightScreen = 0;
     int user_Reflect = 0;
@@ -994,17 +1064,12 @@ void Battle(Trainer*user, Trainer*enemy){
     int calc_dmg = 0;
 
     int ia = 0;
+    int other_ia = 0;
 
     Pokemon* entryPkmn;
 
     textBox(enemy->classtring(enemy->getTC())+" "+enemy->getName()+" sent out "+enemyPkmn->getName()+"!\n ",true);
     clearScreen();
-
-/*
-    cout << userPkmn->printData() << endl;
-    cout << enemyPkmn->printData() << endl;
-    cin >> calc_dmg;
-*/
 
     // ================ END VARS ======================
     while(inBattle == true){
@@ -1069,7 +1134,6 @@ void Battle(Trainer*user, Trainer*enemy){
                                         }
                                     }
                                 }
-                            
                             break;
                         }
                         break;
@@ -1077,7 +1141,8 @@ void Battle(Trainer*user, Trainer*enemy){
                         // atk
                         enemyMove = enemyAttack(userPkmn, enemyPkmn, weather);
                         switch(speedTurn){
-                        case 1: // ========================================= starts USER =========================================
+                        case 1:
+                            //========================================= starts USER =========================================
                             textBox((userPkmn->getName()+" used "+userMove->getName()+"\n"),true);
                             calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove, weather);
 
@@ -1111,7 +1176,6 @@ void Battle(Trainer*user, Trainer*enemy){
                                     }
                                 }
                             }
-                            
                             break;
                         case 2: //  ========================================= ENEMY goes first =========================================
                             textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",true);
@@ -1217,14 +1281,262 @@ void Battle(Trainer*user, Trainer*enemy){
         enemy_Reflect--;
 }
 
+void BattleIA(Trainer*user, Trainer*enemy){
+    string partyballs(enemy->getPartySize(),'O');
+    string emptyballs(6-enemy->getPartySize(),'X');
+    textBox(enemy->classtring(enemy->getTC())+" "+enemy->getName()+" would like to battle! \n\t"+partyballs+emptyballs+"\n", true);
+
+    bool inBattle = true;
+
+    Pokemon *userPkmn = user->getLeadPkmn();
+    Pokemon *enemyPkmn = enemy->getLeadPkmn();
+    Move *userMove;
+    Move *enemyMove;
+    int turn = 0;
+    Weather weather = CLEAR;
+    int weatherTurn;
+
+    int user_LightScreen = 0;
+    int user_Reflect = 0;
+
+    int enemy_LightScreen = 0;
+    int enemy_Reflect = 0;
+
+    int menuDecision = 0;
+    int speedTurn;
+    int calc_dmg = 0;
+
+    int ia = 0;
+    int other_ia = 0;
+
+    Pokemon* entryPkmn;
+
+    textBox(enemy->classtring(enemy->getTC())+" "+enemy->getName()+" sent out "+enemyPkmn->getName()+"!\n ",true);
+    clearScreen();
+
+    // ================ END VARS ======================
+    while(inBattle == true){
+        userPkmn->updateStats();
+        enemyPkmn->updateStats();
+        
+        ia = IAdecision(userPkmn, enemyPkmn, enemy->getParty());
+
+        ShowPokemonMenuHUD(user,enemy,userPkmn, enemyPkmn);
+
+        other_ia = IAdecision(enemyPkmn, userPkmn, user->getParty());
+        
+        // 1 ia cambiar
+            // 2 cambiar
+            // 2 atacar
+                // 3 1 mas rapido
+                // 3 2 mas rapido
+        // 1 quiera atacar
+            // 2 cambiar
+            // 2 atacar
+                // 3 1 mas rapido
+                // 3 2 mas rapido
+
+
+        switch(ia){
+            //enemy changes
+            case 1:
+                switch(other_ia){
+                    // enemy change
+                    // user decides to change
+                    case 1:
+                        enemyPkmn = IAchangePokemon(enemy, IAChange(userPkmn, enemyPkmn, enemy->getParty())); 
+                        entryPkmn = changePokemon(user);
+
+                        if(entryPkmn  == nullptr)
+                            break;
+
+                        userPkmn = entryPkmn;
+                    break;
+                    // user attacks
+                    case 2:
+                        enemyPkmn = IAchangePokemon(enemy, IAChange(userPkmn, enemyPkmn, enemy->getParty())); 
+                        // select user move
+                        userMove = enemyAttack(enemyPkmn, userPkmn, weather);
+                        calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove, weather);
+
+                        // -1 = abort, else calculate damage
+                        if(calc_dmg != -1){
+                            userPkmn->setCurrentHP(userPkmn->getHP() - calc_dmg);
+                            if(checkHps(userPkmn, enemyPkmn) == false){
+                                if(lose(enemy,user,false) == true){
+                                    return;
+                                } else {
+                                    userPkmn = sendNextPokemon(user);
+                                    break;
+                                }
+                            }
+                        }
+                    break;
+                }
+            break;
+            // enemy attacks
+            case 2:
+                switch(other_ia)
+                {
+                    // user changes
+                    case 1:
+                        entryPkmn = changePokemon(user);
+                        if(entryPkmn  == nullptr)
+                            break;
+                        userPkmn = entryPkmn;
+
+                        //  ========================================= ENEMY goes first =========================================
+                        
+                        enemyMove = enemyAttack(userPkmn, enemyPkmn, weather);
+                        
+                        textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",false);
+                        calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove, weather);
+
+                        // -1 = abort, else calculate damage
+                        if(calc_dmg != -1){
+                            userPkmn->setCurrentHP(userPkmn->getHP() - calc_dmg);
+                            if(checkHps(userPkmn, enemyPkmn) == false){
+                                if(lose(enemy,user,false) == true){
+                                    return;
+                                } else {
+                                    userPkmn = sendNextPokemon(user);
+                                    break;
+                                }
+                            }
+                        }
+                    break;
+                    // user attacks
+                    case 2:
+                        // check faster pkmn
+                        speedTurn = speedCheck(userPkmn, enemyPkmn);
+                        
+                        switch(speedTurn)
+                        {
+                            case 1:
+                                //========================================= starts USER =========================================
+                                userMove = enemyAttack(enemyPkmn, userPkmn, weather);
+
+                                textBox((userPkmn->getName()+" used "+userMove->getName()+"\n"),false);
+                                calc_dmg = calculateDamage(userPkmn, enemyPkmn, userMove, weather);
+
+                                // -1 = abort, else calculate damage
+                                if(calc_dmg != -1)
+                                {
+                                    enemyPkmn->setCurrentHP(enemyPkmn->getHP() - calc_dmg);
+                                    //Check if died
+                                    if(checkHps(userPkmn, enemyPkmn) == false){
+                                        if(lose(user,enemy,true) == true){
+                                            return;
+                                        } else {
+                                            enemyPkmn = sendNextPokemon(enemy);
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                                // =-=-=-=-=-=-= Foe Turn =-=-=-=-=-=-=-=-=
+                                enemyMove = enemyAttack(userPkmn, enemyPkmn, weather);
+
+                                textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",false);
+                                calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove, weather);
+
+                                // -1 = abort, else calculate damage
+                                if(calc_dmg != -1)
+                                {
+                                    userPkmn->setCurrentHP(userPkmn->getHP() - calc_dmg);
+                                    if(checkHps(userPkmn, enemyPkmn) == false){
+                                        if(lose(enemy,user,false) == true){
+                                            return;
+                                        } else {
+                                            userPkmn = sendNextPokemon(user);
+                                            break;
+                                        }
+                                    }
+                                }
+                            break;
+                            case 2:
+                                //  ========================================= ENEMY goes first =========================================
+                                enemyMove = enemyAttack(userPkmn, enemyPkmn, weather);
+                                
+                                textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",false);
+                                calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove, weather);
+
+                                // -1 = abort, else calculate damage
+                                if(calc_dmg != -1){
+                                    userPkmn->setCurrentHP(userPkmn->getHP() - calc_dmg);
+                                    if(checkHps(userPkmn, enemyPkmn) == false){
+                                        if(lose(enemy,user,false) == true){
+                                            return;
+                                        } else {
+                                            userPkmn = sendNextPokemon(user);
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                //  ========================================= ENEMY goes first =========================================
+                                userMove = enemyAttack(enemyPkmn, userPkmn, weather);
+                                
+                                textBox(enemyPkmn->getName()+" used "+enemyMove->getName()+"\n",false);
+                                calc_dmg = calculateDamage(enemyPkmn, userPkmn, enemyMove, weather);
+
+                                // -1 = abort, else calculate damage
+                                if(calc_dmg != -1)
+                                {
+                                    userPkmn->setCurrentHP(userPkmn->getHP() - calc_dmg);
+                                    if(checkHps(userPkmn, enemyPkmn) == false){
+                                        if(lose(enemy,user,false) == true){
+                                            return;
+                                        } else {
+                                            userPkmn = sendNextPokemon(user);
+                                            break;
+                                        }
+                                    }
+                                }
+                            break;
+                        }
+                    break;
+                }
+            break;
+        }
+    }
+    turn++;
+    if(weatherTurn == 0){
+        weather = Weather::CLEAR;
+    }
+
+    if(weatherTurn != 0)
+        weatherTurn--;
+
+    if(user_LightScreen != 0)
+        user_LightScreen--;
+
+    if(enemy_LightScreen != 0)
+        enemy_LightScreen--;
+
+    if(user_Reflect != 0)
+        user_Reflect--;
+    
+    if(enemy_Reflect !=0)
+        enemy_Reflect--;
+}
+
 int main(){
     srand(time(NULL));
-    //Lucas
+
     Trainer* player = start();
 
-    //Lucas->mostrarEquipo();
-    //Kaitlin->mostrarEquipo();
+    char fight;
 
-    Battle(player, Cynthia);
+    cout << "IA vs IA? [Y/N]: " << endl; 
+    cin >> fight;
+
+    if(fight == 'Y'){
+        BattleIA(player, Cynthia);
+    }
+    if(fight == 'N'){
+        Battle(player, Cynthia);
+    }
+
     return 0;
 }

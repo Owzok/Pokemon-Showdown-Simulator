@@ -1,4 +1,4 @@
-#include "pokemonDataBase.cpp"
+#include "sampleTrainersDB.cpp"
 #include <conio.h>
 
 void clearScreen(){ system("cls"); }
@@ -11,9 +11,6 @@ Trainer *Tobias = new Trainer("Tobias", ACE_TRAINER, {});
 Trainer *Flint = new Trainer("Flint", ELITE_FOUR, {});
 
 Trainer* player = new Trainer("",RICH_BOY,{});
-
-
-
 
 void fill(Trainer* trainer){
     for(auto pkmn: trainer->getParty()){
@@ -110,13 +107,19 @@ void updateTrainers(){
 
     fill(Flint);
 
+    //Tobias
+    Tobias->setPkmn(pokemones.at("Darkrai"), 50, {moves.at("Dark Pulse"), moves.at("Dark Void"), moves.at("Ice Beam"), moves.at("Nasty Plot")});
+    Tobias->setPkmn(pokemones.at("Latios"), 50, {moves.at("Light Screen"), moves.at("Recover"), moves.at("Luster Purge"), moves.at("Giga Impact")});
+
+    fill(Tobias);
+
     //Cynthia
-    Cynthia->setPkmn(pokemones.at("Spiritomb"),50,{moves.at("Dark Pulse"),moves.at("Will-O-Wisp"),moves.at("Psychic"),moves.at("Embargo")});
-    Cynthia->setPkmn(pokemones.at("Roserade"),50,{moves.at("Energy Ball"),moves.at("Sludge Bomb"),moves.at("Shadow Ball"),moves.at("Extrasensory")});
-    Cynthia->setPkmn(pokemones.at("Gastrodon"),50,{moves.at("Muddy Water"),moves.at("Earthquake"),moves.at("Stone Edge"),moves.at("Sludge Bomb")});
-    Cynthia->setPkmn(pokemones.at("Lucario"),50,{moves.at("Aura Sphere"),moves.at("Dragon Pulse"),moves.at("Psychic"),moves.at("Earthquake")});
-    Cynthia->setPkmn(pokemones.at("Milotic"),50,{moves.at("Surf"),moves.at("Ice Beam"),moves.at("Mirror Coat"),moves.at("Aqua Ring")});
-    Cynthia->setPkmn(pokemones.at("Garchomp"),50,{moves.at("Dragon Rush"),moves.at("Earthquake"),moves.at("Brick Break"),moves.at("Giga Impact")});
+    Cynthia->setPkmn(pokemones2.at("Spiritomb"),50,{moves.at("Dark Pulse"),moves.at("Will-O-Wisp"),moves.at("Psychic"),moves.at("Embargo")});
+    Cynthia->setPkmn(pokemones2.at("Roserade"),50,{moves.at("Energy Ball"),moves.at("Sludge Bomb"),moves.at("Shadow Ball"),moves.at("Extrasensory")});
+    Cynthia->setPkmn(pokemones2.at("Gastrodon"),50,{moves.at("Muddy Water"),moves.at("Earthquake"),moves.at("Stone Edge"),moves.at("Sludge Bomb")});
+    Cynthia->setPkmn(pokemones2.at("Lucario"),50,{moves.at("Aura Sphere"),moves.at("Dragon Pulse"),moves.at("Psychic"),moves.at("Earthquake")});
+    Cynthia->setPkmn(pokemones2.at("Milotic"),50,{moves.at("Surf"),moves.at("Ice Beam"),moves.at("Mirror Coat"),moves.at("Aqua Ring")});
+    Cynthia->setPkmn(pokemones2.at("Garchomp"),50,{moves.at("Dragon Rush"),moves.at("Earthquake"),moves.at("Brick Break"),moves.at("Giga Impact")});
 
     fill(Cynthia);
 }
@@ -135,16 +138,25 @@ Trainer* start(){
         cout << "Choose your name: " << endl; cin >> name;
         player->setName(name);
         chooseTeam(player);
-
         fill(player);
-
         return player;
+
     } else {
-        string name;
+        int name;
         cout << "Choose your team: " << endl;
         cout << "[1] Flint" << endl;
-        cout << "[2] Cynthia" << endl;
+        cout << "[2] Tobias" << endl;
+
         cin >> name;
+
+        switch(name){
+            case 1:
+                return Flint;
+            break;
+            case 2:
+                return Tobias;
+            break;
+        }
     }
     return Flint;
 }

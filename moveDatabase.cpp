@@ -62,7 +62,7 @@ map<string,Move*> moves = {
     {"Embargo", new Move("Embargo",15, STATUS,0,100,"Enemy cannot use items",DARK)},
     {"Dark Void", new Move("Dark Void",10,STATUS,0,80,"status|100|SLP",DARK)},
     {"Taunt", new Move("Taunt",20,STATUS,0,100,"effect|NO_ATTACKS",DARK)},
-    {"Nasty Plot", new Move("Nasty Plot",20,STATUS,0,100,"stat|100|+user|ATK|2",DARK)},
+    {"Nasty Plot", new Move("Nasty Plot",20,STATUS,0,100,"stat|100|+user|SPA|2",DARK)},
     {"Astonish", new Move("Astonish",25,PHYSICAL,50,100,"status|10|CFD",PSYCHIC)},
     {"Shadow Ball", new Move("Shadow Ball",10,SPECIAL,90,100,"stat|10|-enemy|DEF|1",GHOST)},
     {"Psychic", new Move("Psychic",10,SPECIAL,90,100,"stat|10|-enemy|DEF|1",PSYCHIC)},
