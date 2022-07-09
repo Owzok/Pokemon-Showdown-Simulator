@@ -38,14 +38,8 @@ void Trainer::setPkmn(Pokemon* pkmn, int lvl, vector<Move*>ms){
     pkmn->setLevel(lvl);
     pkmn->setMoveset(ms);
     party.push_back(pkmn);
-    /*
-    for(auto pk: party){
-        if(pk == pkmn){
-            pk->setLevel(lvl);
-            pk->setMoveset(ms);
-        }
-    }*/
 }
+
 void Trainer::setName(const string &nm){
     name = nm;
 }

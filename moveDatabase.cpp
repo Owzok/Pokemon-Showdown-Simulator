@@ -1,6 +1,7 @@
 #include "trainer.cpp"
 #include <map>
 
+// Move(Name, PP, Category, Power, Accurracy, Side eff, Type)
 map<string,Move*> moves = {
     {"Scratch", new Move("Scratch",35,PHYSICAL,40,100,"",NORMAL),},
     {"Tackle",new Move("Tackle",35,PHYSICAL,40,100,"",NORMAL)},

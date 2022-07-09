@@ -14,9 +14,11 @@ Trainer* player = new Trainer("",RICH_BOY,{});
 
 void fill(Trainer* trainer){
     for(auto pkmn: trainer->getParty()){
-        pkmn->startStats();
+       pkmn->startStats(); 
     }
 }
+
+// =========== CREACION DE EQUIPOS ===============================================
 
 vector<Move*> chooseMoveset(Pokemon* pkmn){
     cout << pkmn->getName() << " attacks: " << endl;
@@ -128,13 +130,13 @@ Trainer* start(){
     updateTrainers();
     char teamBuilding;
     string name;
-
+    
     Trainer *t;
 
     cout << "Do you want to create your own team? [Y/N]: " << endl; 
     cin >> teamBuilding;
 
-    if(teamBuilding == 'Y'){
+    if(teamBuilding == 'Y' || teamBuilding == 'y'){
         cout << "Choose your name: " << endl; cin >> name;
         player->setName(name);
         chooseTeam(player);

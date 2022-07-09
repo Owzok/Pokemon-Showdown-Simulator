@@ -141,6 +141,7 @@ void Pokemon::updateStats()
 {
     if(cur_hp > max_hp)
         cur_hp = max_hp;
+
     if(atk_stat_change != 0){
         switch(atk_stat_change){
             case -6:
@@ -351,6 +352,7 @@ void Pokemon::updateStats()
     }
 }
 
+// 1: ATK, 2: DEF, 3: SPA, 4: SPD, 5: SPE
 void Pokemon::boost(int stat, int amount){
     switch(stat){
         case 1:

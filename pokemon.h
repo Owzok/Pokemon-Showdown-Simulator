@@ -1,12 +1,11 @@
 #include "typeEffectivenessDB.cpp"
-using namespace std;
 
 class Pokemon{
     private:
 // ----------- IDENTIFIERS -----------
         int id;
         int level;
-
+        string name;
 // ----------- STATS -----------
         int max_hp;
 
@@ -24,11 +23,13 @@ class Pokemon{
 
 // ----------- DATA -----------
         string ability;
-        string name;
 
         PkmnTypes type1, type2;
-
+        
+        // 4 ataques del pokemon para atacar
         vector<Move*> moveset;
+
+        // total de ataques del pokemon para escoger en la creacion
         vector<Move*> movepool;
 
         PkmnStatus Status = HEALTHY;

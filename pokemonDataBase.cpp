@@ -3,6 +3,7 @@
 vector<Move*> moveset = {};
 int level = 1;
 
+// Pokemon(Name, id, level, HP, ATK, DEF, SPA, SPD, SPE, Ability, Type1, Type2, moveset, movepool)
 map<string, Pokemon*> pokemones = {
     {"Turtwig", new Pokemon("Turtwig",387,level,55,68,64,45,55,31,"Overgrow",GRASS,NONE, moveset, TurtwigMP),},
     {"Chimchar", new Pokemon("Chimchar",390,level,44,58,44,58,44,61,"Blaze",FIRE,NONE, moveset, ChimcharMP),},
