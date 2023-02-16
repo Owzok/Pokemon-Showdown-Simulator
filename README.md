@@ -1,5 +1,4 @@
-# Pokemon Showdown!
-
+# Pokemon Showdown Simulator
 
 <p aling="center">
 <img src="https://github.com/CS1103/proyecto-final-grupo8_pokemon/blob/main/img/pokemonshowdown.png">
