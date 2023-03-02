@@ -67,13 +67,3 @@ proyecto-final-grupo8_pokemon/
 Al principio buscamos consumir la API de Pokemon. Sin embargo, fue difícil de hacer asi que hicimos las bases de datos manualmente usando mapas.
 Al comienzo se nos hizo complicado el crear el algoritmo de la IA.
 Se nos complico implementar la libreria grafica porque algunos de nuestros compañeros usan linux y ahi no funcionaba.
-
-## Bibliografía
-
-
-##### Contribuyentes
-
-| Martin P.   | Marcelo Z.  | Kevin H.   | Paolo V.   | Gabriel E. |
-| :---:       |    :----:   |   :---:    |  :---:     |   :---:    |
-| <img src= "https://avatars.githubusercontent.com/u/87045535?v=4">   | <img src="https://avatars.githubusercontent.com/u/85197213?v=4">   | <img src="https://avatars.githubusercontent.com/u/85197193?v=4">  | <img src="https://avatars.githubusercontent.com/u/83627663?v=4">  | <img src="https://avatars.githubusercontent.com/u/85197211?v=4">  |
-| [Martín Perez Bonany](https://github.com/Owzok/)    | [Marcelo Zuloeta](https://github.com/marceloZS)    | [Kevin Huaman](https://github.com/khuaman)   | [Paolo Vásquez](https://github.com/paoloovasquezg)   |  [Gabriel Espinoza](https://github.com/Gabrieleeh32159) |
