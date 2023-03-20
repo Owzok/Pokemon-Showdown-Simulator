@@ -8,15 +8,15 @@ Introduction
 > About the game
 - Pokemon Showdown is a game where 2 players fight each other in a pokemon battle. The player can create a team of up to 6 pokemons. Attacks, stats, types and levels can be customized in all ways. There is also the option to play with a team already created by default. The player has a menu that revives the experience of the classic Gameboy pokemon, where he has options to attack, change pokemon if he has one available, or show data on the pokemon in battle as well as combat variables. The objective of the game is obviously to defeat your opponent in a pokemon battle. However, this is not all, since the game also aims to customize the values of your created pokemon in order to simulate the experience.
 
-<img src="https://imgur.com/Ub8b3sF.png " width=600>  
+<p align="center"><img src="https://imgur.com/Ub8b3sF.png " width=400></p>  
 
 > About the program
-- The program first has the option for the player to decide if he wants to create his team or play with one of the already existing teams, after this the option to choose appears to decide if you want to play against the machine or have a machine become face against another. Once the combat has started, the machine's decision is made using our MinMax algorithm and waits for the user's response, which can decide between attacking (in the event of an attack, it has different attacks to choose from), changing the pokemon or observing data from both it and his rival as the battlefield. The game continues until one trainer runs out of pokemon and that's where the other one turns out to be the winner.
-
+- The program first has the option for the player to decide if he wants to create his team or play with one of the already existing teams, after this the option to choose appears to decide if you want to play against the machine or have a machine become face against another. Once the combat has started, the machine's decision is made using our MinMax algorithm and waits for the user's response, which can decide between attacking (in the event of an attack, it has different attacks to choose from), changing the pokemon or observing data from both it and his rival as the battlefield. The game continues until one trainer runs out of pokemon and that's where the other one turns out to be the winner.  
+<p align="center"><img src="https://imgur.com/LEGAjqJ.png" width=400></p>  
 
 
 ### Project features
-> Includes:
+#### Includes:
 ##### Team-building:  
 You can create your team of up to 6 pokemons, choosing the attacks, pokemon and level you want.
 ##### Default Teams:  
