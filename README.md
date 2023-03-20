@@ -16,26 +16,31 @@ The program first has the option for the player to decide if he wants to create 
 
 
 ### Project features
-#### Includes:
 ##### Team-building:  
-You can create your team of up to 6 pokemons, choosing the attacks, pokemon and level you want.
+>You can create your team of up to 6 pokemons, choosing the attacks, pokemon and level you want.
 ##### Default Teams:  
-If you prefer to play with an already created team, there is also that option.
+>If you prefer to play with an already created team, there is also that option.
 ##### Plays and moves
-Menu to attack, change pokemon or show data for both pokemons and combat variables.
+>Menu to attack, change pokemon or show data for both pokemons and combat variables.
 Minimax algorithm that acts as an AI and is against whom one can face.
 
 ##### Pokemon Characteristics
-Pokemon have: 
+>Pokemon have: 
 level, _HP_, _ATK_, _DEF_, _SPA_, _SPD_, _SPE_ (both base stat and current value), modifiers for each stat, system to create _IVS_ and _EVS_ equally for each stat, abilities, types, _moveset_, _movepool_, state (poisoned, paralyzed, asleep, frozen, etc.).
 
-The same formulas from the game are used to calculate the stats and damage of each attack. Within the attacks these are affected by the advantage and disadvantage of the type table, STAB attacks and weather.
+<p align="center"><img src="https://imgur.com/UfMCKy9.png " width=400></p>  
 
-There are databases for the type table, the movepools of each pokemon, the stats of each pokemon, the data of each trainer, etc. These are stored in maps with the key being the name of the value and then the object.
+
+> The same formulas from the game are used to calculate the stats and damage of each attack. Within the attacks these are affected by the advantage and disadvantage of the type table, STAB attacks and weather.
+
+<p align="center"><img src="https://imgur.com/D66yJcf.png " width=400></p>  
+
+> There are databases for the type table, the movepools of each pokemon, the stats of each pokemon, the data of each trainer, etc. These are stored in maps with the key being the name of the value and then the object.
+<p align="center"><img src="https://imgur.com/jCXy78E.png " width=400></p>  
+
 
 More than 3000 lines of code were used to do all of this.
 
-<p align="center"><img src="https://imgur.com/UfMCKy9.png " width=400></p>  
 
 ### File Structure
 ```
