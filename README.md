@@ -1,42 +1,44 @@
 # Pokemon Showdown Simulator
 
-<p aling="center">
-<img src="https://github.com/CS1103/proyecto-final-grupo8_pokemon/blob/main/img/pokemonshowdown.png">
-</p>
 
-Introducción
+
+Introduction
 -----
 
-> Resumen del juego
-- Pokemon Showdown es un juego donde 2 jugadores luchan entre sí en una batalla pokemon. El jugador puede crear un equipo de hasta 6 pokemones. Se pueden personalizar los ataques, estadísticas, tipos y niveles de todas las formas. Además existe la opción de jugar con un equipo ya creado por defecto. El jugador dispone de un menú que revive la experiencia del pokemon clásico de Gameboy, donde dispone de opciones para atacar, cambiar de pokemon si tiene alguno disponible, o mostrar datos de los pokemones en lucha como de las variales de combate. El objetivo del juego es, evidentemente, derrotar a tu adversario en una batalla pokemon. Sin embargo esto no es todo, puesto que el juego también tiene como finalidad customizar los valores de tus pokemones creados en fin de simular la experiencia.
+> About the game
+- Pokemon Showdown is a game where 2 players fight each other in a pokemon battle. The player can create a team of up to 6 pokemons. Attacks, stats, types and levels can be customized in all ways. There is also the option to play with a team already created by default. The player has a menu that revives the experience of the classic Gameboy pokemon, where he has options to attack, change pokemon if he has one available, or show data on the pokemon in battle as well as combat variables. The objective of the game is obviously to defeat your opponent in a pokemon battle. However, this is not all, since the game also aims to customize the values of your created pokemon in order to simulate the experience.
 
-> Resumen del programa
-- El programa cuenta primero con la opcion de que el jugador decida si quiere crear su equipo o jugar con uno de los equipos ya existentes, despues de esto aparece la opcion a escoger para decidir si quieres jugar tu contra la maquina o hacer que una maquina se enfrente contra otra. Una vez iniciado el combate se toma la decision de la maquina usando nuestro algoritmo MiniMax y espera a la respuesta del usuario el cual puede decidir entre atacar (en caso ataque tiene igual distintos ataques para escoger) cambiar de pokemon u observar datos de tanto el como su rival como el campo de batalla. El juego se desarrolla hasta que ya un entrenador se quede sin pokemones y ahi es donde el otro resulta ser el ganador.
+<img src="https://imgur.com/Ub8b3sF.png " width=600>  
 
-### Características del proyecto
-> Incluye:
-##### Creacion de equipo pokemon:
-Puedes crear tu equipo de hasta 6 pokemones, escogiendo los ataques, pokemon y nivel que quieras.
-Equipos por defecto:
-Si prefieres jugar con un equipo ya creado, tambien existe esa opcion.
-##### Jugadas y movimientos
-Menu para atacar, cambiar de pokemon o mostrar datos tanto de ambos pokemones como de las variables del combate.
-Algoritmo Minimax que actua como IA y es contra el con quien uno se puede enfrentar.
-##### Caracteristicas de los Pokemones
-Los pokemones tienen: nivel, _HP_, _ATK_, _DEF_, _SPA_, _SPD_, _SPE_ (tanto de estadistica base como de valor actual), modificadores para cada estadistica, sistema para crear _IVS_ y _EVS_ igualmente para cada estadistica, habilidades, tipos, _moveset_, _movepool_, estado (envenenado, paralizado, dormido, congelado, etc.).
-Se usan las mismas formulas del juego para calcular las estadisticas y el daño de cada ataque. Dentro de los ataques estos se ven afectados por la ventaja y desventaja de la tabla de tipos, ataques STAB y climas.
-Hay bases de datos para la tabla de tipos, los movepools de cada pokemon, las estadisticas de cada pokemon, los datos de cada entrenador, etc. Estos son almacenados en mapas con la llave siendo el nombre del valor y despues el objeto.
-Se utilizaron mas de ___ lineas de codigo para realizar todo esto.
-### Video instructivo
-- En el siguiente video se explica el proyecto y se mencionan datos interesantes de la programación del mismo.
-- [Video de explicación del proyecto](link del video)
+> About the program
+- The program first has the option for the player to decide if he wants to create his team or play with one of the already existing teams, after this the option to choose appears to decide if you want to play against the machine or have a machine become face against another. Once the combat has started, the machine's decision is made using our MinMax algorithm and waits for the user's response, which can decide between attacking (in the event of an attack, it has different attacks to choose from), changing the pokemon or observing data from both it and his rival as the battlefield. The game continues until one trainer runs out of pokemon and that's where the other one turns out to be the winner.
 
-### Estructura de Archivos
 
-La estructura de archivos se muestra a continuación y dependerá del uso de cada archivo
 
+### Project features
+> Includes:
+##### Team-building:  
+You can create your team of up to 6 pokemons, choosing the attacks, pokemon and level you want.
+##### Default Teams:  
+If you prefer to play with an already created team, there is also that option.
+##### Plays and moves
+Menu to attack, change pokemon or show data for both pokemons and combat variables.
+Minimax algorithm that acts as an AI and is against whom one can face.
+
+##### Pokemon Characteristics
+Pokemon have: 
+level, _HP_, _ATK_, _DEF_, _SPA_, _SPD_, _SPE_ (both base stat and current value), modifiers for each stat, system to create _IVS_ and _EVS_ equally for each stat, abilities, types, _moveset_, _movepool_, state (poisoned, paralyzed, asleep, frozen, etc.).
+
+The same formulas from the game are used to calculate the stats and damage of each attack. Within the attacks these are affected by the advantage and disadvantage of the type table, STAB attacks and weather.
+
+There are databases for the type table, the movepools of each pokemon, the stats of each pokemon, the data of each trainer, etc. These are stored in maps with the key being the name of the value and then the object.
+
+More than 3000 lines of code were used to do all of this.
+
+
+### File Structure
 ```
-proyecto-final-grupo8_pokemon/
+root/
 |__ battleFunctions.cpp
 |__ main.cpp
 |__ main.exe
@@ -51,19 +53,11 @@ proyecto-final-grupo8_pokemon/
 |__ trainer.h
 |__ trainerDB.cpp	
 |__ img/
-    |__ pokemonshowdown.png
-					
+    |__ pokemonshowdown.png				
 ```
-## Arquitectura del código
 
-### Diagrama de Clases
+### Class Diagram
 <p aling="center">
 <img src="https://github.com/CS1103/proyecto-final-grupo8_pokemon/blob/main/img/UML%20class.png">
 </p>
-### Patrones de diseño
 
-## Problemas encontrados en la elaboración del proyecto
-
-Al principio buscamos consumir la API de Pokemon. Sin embargo, fue difícil de hacer asi que hicimos las bases de datos manualmente usando mapas.
-Al comienzo se nos hizo complicado el crear el algoritmo de la IA.
-Se nos complico implementar la libreria grafica porque algunos de nuestros compañeros usan linux y ahi no funcionaba.
