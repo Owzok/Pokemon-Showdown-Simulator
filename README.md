@@ -1,3 +1,4 @@
+![a](https://img.shields.io/badge/C%2B%2B-17-blue) ![s](https://img.shields.io/badge/repo%20size-1.9%20MB-yellow) ![a](https://img.shields.io/badge/license-MIT-green)
 # Pokemon Showdown Simulator
 
 🦉 Introduction
@@ -11,7 +12,6 @@ About the game
 About the program  
 > The program first has the option for the player to decide if he wants to create his team or play with one of the already existing teams, after this the option to choose appears to decide if you want to play against the machine or have a machine become face against another. Once the combat has started, the machine's decision is made using our MinMax algorithm and waits for the user's response, which can decide between attacking (in the event of an attack, it has different attacks to choose from), changing the pokemon or observing data from both it and his rival as the battlefield. The game continues until one trainer runs out of pokemon and that's where the other one turns out to be the winner.  
 <p align="center"><img src="https://imgur.com/LEGAjqJ.png" width=400></p>  
-
 
 ### Project features
 ##### Team-building:  
